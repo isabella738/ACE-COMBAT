@@ -1,0 +1,23 @@
+Cooldowns:
+- Spawnar inimigos
+- Tempo da vida ativa
+- Tempo da vida não ativa
+- Andar inimigos (interno)
+- Atirar dos inimigos (interno)
+
+
+
+Ordem de execucao:
+
+Pré-processamento:
+- inicializar entidades e cooldowns OK
+
+Durante:
+- Cooldowns OK
+- Resultado dos cooldowns OK
+- Movimentação de entidades e projeteis OK
+- Verificação de colisão OK
+- Alteração de estado OK
+- Impressão OK
+
+

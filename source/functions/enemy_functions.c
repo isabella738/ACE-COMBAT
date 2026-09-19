@@ -1,5 +1,5 @@
 #include "settings.h"
-#include "inicializacoes.h"
+#include "inicializations.h"
 #include "general_funcions.h"
 #include <stdlib.h>
 

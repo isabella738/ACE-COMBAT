@@ -1,6 +1,7 @@
 #include "settings.h"
-
 /*
+    O valores de cooldown sao o tempo em segundos.
+
     Struct Entidade
 
     Coordenada p;
@@ -80,8 +81,8 @@ Entidade inicializar_inimigo[] = {
         0,
         0,
         {0},
-        10,
-        10,
+        1*FPS,
+        1*FPS,
     },
     {//nivel 2
         {0, -5},
@@ -95,8 +96,8 @@ Entidade inicializar_inimigo[] = {
         1,
         0,
         {0},
-        10,
-        10
+        1*FPS,
+        1*FPS
     },
 };
 
@@ -111,27 +112,28 @@ Config configuracoes_de_fase[] = {
     */
 
     {//fase 1
-        10,
-        10,
-        2,
+        FPS*10,
+        FPS*10,
+        FPS*10,
         1,
-        20,
+        100,
         10
     },
     {//fase 2
-        10,
-        10,
+        FPS*5,
+        FPS*10,
+        FPS*10,
         2,
-        2,
-        30,
+        300,
         15,
     },
     {//fase 3 (Boss)
-        10,
-        10,
-        2,        
+        FPS*10,
+        FPS*10,
+        FPS*10,        
         3,
         0,
         150
     }
 };
+

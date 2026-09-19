@@ -1,7 +1,44 @@
 #include "settings.h"
-#include "inicializacoes.h"
+#include "inicializations.h"
 #include "enemy_functions.h"
 #include "player_functions.h"
+#include <stdlib.h>
+#include <stdio.h>
+
+//Spawns
+void spawn_vida(){
+    int x, y;
+    while(1){
+        x = rand()%(LARGURA-2) + 1;
+        y = rand()%(ALTURA - LINHA_LIMITE - 1) + LINHA_LIMITE - 1;
+        
+        if(x >= player.p.x && x < player.p.x + player.largura
+        && y >= player.p.y && y < player.p.y + player.altura){
+            continue;
+        }
+        else break;
+    }
+    vida.x = x;
+    vida.y = y;
+}
+
+void spawn_projetil(int y, Entidade *p){
+
+    if(p->n_projeteis >= MAX_PROJETEIS-3) return;
+
+    int meio = p->largura/2;
+    int n = p->n_projeteis;
+
+    if(p->projetil_duplo){
+        p->projetil[n] = (Coordenada){meio + p->p.x -1, y};
+        p->projetil[n+1] = (Coordenada){meio + p->p.x +1, y};
+        p->n_projeteis += 2;
+    }
+    else{ 
+        p->projetil[n] = (Coordenada){meio + p->p.x, y};
+        p->n_projeteis++;
+    }
+}
 
 //Config
 void cd_jogo(){
@@ -35,40 +72,8 @@ void cd_jogo(){
 
 void inicializar_constantes(){
     config = configuracoes_de_fase[nivel-1];
+    config.ativar_VidaExtra = 0;
 };
-
-//Spawns
-void spawn_vida(){
-    int x, y;
-    while(1){
-        x = rand()%(LARGURA-2) + 1;
-        y = rand()%(ALTURA - LINHA_LIMITE) + LINHA_LIMITE;
-        
-        if(x >= player.p.x && x < player.p.x + player.largura
-        && y >= player.p.y && y < player.p.y + player.altura){
-            continue;
-        }
-        else break;
-    }
-}
-
-void spawn_projetil(int direcao, Entidade *p){
-
-    if(p->n_projeteis >= MAX_PROJETEIS-3) return;
-
-    int meio = p->largura/2;
-    int n = p->n_projeteis;
-
-    if(p->projetil_duplo){
-        p->projetil[n] = (Coordenada){meio-1, p->p.y + direcao};
-        p->projetil[n+1] = (Coordenada){meio+1, p->p.y + direcao};
-        p->n_projeteis += 2;
-    }
-    else{ 
-        p->projetil[n] = (Coordenada){meio, p->p.y + direcao};
-        p->n_projeteis++;
-    }
-}
 
 //Apagar
 void apagar_projetil(Coordenada vetor[], int x, int *max){
@@ -105,6 +110,20 @@ int colisao(Coordenada projetil, Entidade entidade){
     return 0;
 }
 
-void colisoes(){
+void info_para_debug(){
+    printf("\n");
+    printf("numero de inimigos: %d     \n", max_inm);
+    printf("spawn_inimigo: %d      \n", config.spawn_inimigo);
+
+    //printf("\n");
+    //printf("inimigo[0] = (%d, %d)\n", inimigo[0].p.x, inimigo[0].p.y);
+    //printf("cd_atirar inm[0] = %d\n", inimigo[0].cd_atirar);
+    //printf("n_projeteis = %d\n", inimigo[0].n_projeteis);
+    //printf("prj = (%d, %d)\n", inimigo[0].projetil[0].x, inimigo[0].projetil[0].y);
+
+    //printf("ativar vida: %d     \n", config.ativar_VidaExtra);
+    //printf("vida: (%d, %d)\n", vida.x, vida.y);
+    //printf("desativar vida: %d     \n", config.desativar_VidaExtra);
+
 
 }

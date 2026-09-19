@@ -1,5 +1,5 @@
 #include "settings.h"
-#include "inicializacoes.h"
+#include "inicializations.h"
 #include "general_funcions.h"
 #include <unistd.h>
 
@@ -9,9 +9,8 @@ void spawn_player(){
 
 void pegar_vida(){
     if(colisao(vida, player)){
-        player.vida += config.vida_extra;
-        config.ativar_VidaExtra = -1;
-        config.desativar_VidaExtra = configuracoes_de_fase[nivel-1].desativar_VidaExtra;
+        if(player.vida < inicializar_player[nivel-1].vida) player.vida += config.vida_extra;
+        config.ativar_VidaExtra = 0;
     }
 }
 
@@ -29,10 +28,10 @@ void movimentacao_player(int *atirar){
                 if(y > LINHA_LIMITE) player.p.y--;
                 break;
             case 's':
-                if(y < ALTURA - 2 - player.altura) player.p.y++;
+                if(y < ALTURA - 1 - player.altura) player.p.y++;
                 break;
             case 'd':
-                if(x < LARGURA - 2 - player.largura) player.p.x++;
+                if(x < LARGURA - 1 - player.largura) player.p.x++;
                 break;
             case 'k':
                 (*atirar) = 1;

@@ -7,7 +7,7 @@ void inicializar_constantes();//
 //Spawns
 void spawn_vida();
 
-void spawn_projetil(int direcao, Entidade *p);
+void spawn_projetil(int y, Entidade *p);
 
 //Apagar
 void apagar_projetil(Coordenada vetor[], int x, int *max);
@@ -18,3 +18,6 @@ void apagar_entidade(Entidade vetor[], int x, int *max);
 void movimentacao_projeteis(Entidade *p, int direcao);//
 
 int colisao(Coordenada projetil, Entidade entidade);
+
+//
+void info_para_debug();

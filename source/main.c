@@ -3,13 +3,11 @@
 #include <stdio.h>
 #include "settings.h"
 #include "sprites.h"
-#include "inicializacoes.h"
+#include "inicializations.h"
 #include "auxiliary.h"
 #include "general_funcions.h"
 #include "player_functions.h"
 #include "enemy_functions.h"
-
-#ifdef SETTINGS
 
 /*
     Ordem de Execucao
@@ -22,9 +20,11 @@
     5. Impressao
 */
 
+#ifdef SETTINGS
+
 int main_game(){
     imprimir_em_cima(9, 18, tela_mudanca_de_nivel[nivel], 2, 6, 5, 0.01);
-    pausa();
+    pausa(); system("clear");
 
     spawn_player(nivel);
     inicializar_constantes(nivel);
@@ -34,38 +34,51 @@ int main_game(){
 
     while(1){
         printf(VOLTAR);
-        printf("Nivel: %d\n\n", nivel);
+        usleep(SEGUNDOS/FPS);
+
+        printf("Nivel: %d\n", nivel);
         printf("Pontos: %d\n", pontos);
 
         int atirar=0;
 
         cd_jogo();
         cd_inimigos();
-
+    
         movimentacao_player(&atirar);
         movimentacao_projeteis(&player, -1);
-        if(atirar) spawn_projetil(1, &player);
+        if(atirar) spawn_projetil(player.p.y-1, &player);
 
         for(int i=0; i<max_inm; i++){
             movimentacao_inimigos(&inimigo[i]);
             movimentacao_projeteis(&inimigo[i], 1);
+
+            if(inimigo[i].cd_atirar < 0){
+                inimigo[i].cd_atirar = inicializar_inimigo[nivel-1].cd_atirar;
+                spawn_projetil(inimigo[i].p.y + inimigo[i].altura, &inimigo[i]);
+            }
         }
 
         colisao_player_inimigo();
         colisao_inimigo_player();
         pegar_vida();
 
-        imprimir_mapa(max_inm);
-        imprimir_barra_de_vida(player.vida, inicializar_player[nivel].vida);
+        imprimir_mapa();
+        imprimir_barra_de_vida(player.vida, inicializar_player[nivel-1].vida);
 
-        if(player.vida == 0) break;
-        if(player.abates == config.pontos_minimos){
+        if(player.vida <= 0){
+            player.estado = 2;
+            printf(VOLTAR"\n\n");
+            imprimir_mapa();
+            break;
+        }
+        if(pontos == config.pontos_minimos){
             vitoria=1; break;
         }
+
+        //info_para_debug();
     }
 
-    system("clear");
-    usleep(2*SEGUNDOS);
+    usleep(1.5*SEGUNDOS);
     return vitoria;
 }
 

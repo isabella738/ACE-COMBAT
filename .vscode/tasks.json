@@ -2,9 +2,8 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Compilar e Rodar C",
+            "label": "Compilar e Rodar Ace Combat",
             "type": "shell",
-            //"command": "gcc -g \"${file}\" -o \"${fileDirname}/${fileBasenameNoExtension}\" && \"${fileDirname}/${fileBasenameNoExtension}\"",
             "command": "make && ./acecombat",
             "group": {
                 "kind": "build",

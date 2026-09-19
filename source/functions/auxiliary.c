@@ -26,10 +26,10 @@ int imprimir_entidade(int x, int y, Entidade entidade, char sprite[][2][3][8], i
     return 0;
 }
 
-int imprimir_projeteis(int x, int y, Entidade entidade){
+int imprimir_projeteis(int x, int y, Entidade entidade, int cor){
     for(int i=0; i < entidade.n_projeteis; i++){
         if(entidade.projetil[i].x == x && entidade.projetil[i].y == y){
-            printf(AMARELO "*" RESET);
+            printf("%s*" RESET, cores[cor]);
             return 1;
         }
     }
@@ -43,50 +43,53 @@ void imprimir_em_cima(int altura, int largura, char imagem[altura][largura], int
     }
     printf(VOLTAR);
 
-    printf("\033[%dB", dy);
-
-    for(int y=0; y<altura; y++){
-        printf("\033[%dC", dx);
-
-        for(int x=0; x<largura; x++){
-            printf("%s%c"RESET, cores[cor], imagem[y][x]);
-            if(imagem[y][x] != ' '){
+    for(int y=0; y<ALTURA; y++){
+        for(int x=0; x<LARGURA; x++){
+            if(x >= dx && x < dx + largura - 1 && y >= dy && y < dy + altura){
+                printf("%s%c"RESET, cores[cor], imagem[y-dy][x-dx]);
                 fflush(stdout);
-                usleep(SEGUNDOS*tempo);
+                usleep(0.005*SEGUNDOS);
             }
+            else printf(CINZA"%c"RESET, mapa[y][x]);
         }
         printf("\n");
     }
-    printf("\033[%dB", ALTURA - altura - dy);
 }
 
 void imprimir_barra_de_vida(int x, int max){
-    for(int i=0; i < max/x; i++){
+    int a;
+    if(x*100/max > 50) a = 4;
+    else if(x*100/max >25) a = 3;
+    else a = 2;
+
+    printf("%d %s", player.vida, cores[a]);
+    for(int i=0; i < 20*x/max; i++){
         printf("%c", barra_de_vida[i]);
-        printf("                   ");
     }
+    printf(RESET"                   \n");
 }
 
-void imprimir_mapa(int max){
+void imprimir_mapa(){
     for(int y=0; y < ALTURA; y++){
         for(int x=0; x < LARGURA; x++){
-
             int imp=0; //indica se aquela celula já foi impressa
 
             //Player
             imp = imprimir_entidade(x, y, player, sprite_player, nivel);
-            if(!imp) imp = imprimir_projeteis(x, y, player);
-
+            if(!imp) imp = imprimir_projeteis(x, y, player, 3);
+            
             //Inimigos
-            if(!imp) for(int i=0; i < max || imp == 0; i++){
+            if(!imp) for(int i=0; i < max_inm && imp == 0; i++){
                 imp = imprimir_entidade(x, y, inimigo[i], sprite_inimigos, nivel);
             }
-            if(!imp) for(int i=0; i < max || imp == 0; i++){
-                imp = imprimir_projeteis(x, y, inimigo[i]);
+            
+            if(!imp) for(int i=0; i < max_inm && imp == 0; i++){
+                imp = imprimir_projeteis(x, y, inimigo[i], 2);
             }
 
             if(!imp) if(vida.x == x && vida.y == y){
-                printf(VERDE "@" RESET); imp = 1;
+                printf(VERDE "@" RESET); 
+                imp = 1;
             }
 
             if(!imp) printf(CINZA "%c" RESET, mapa[y][x]);

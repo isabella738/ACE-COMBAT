@@ -1,7 +1,7 @@
 #include "settings.h"
 #include "auxiliary.h"
 #include "main.h"
-#include "inicializacoes.h"
+#include "inicializations.h"
 #include "cutscenes.h"
 #include <termios.h>
 #include <unistd.h>
@@ -23,7 +23,7 @@ int main(){
     while(1){
         system("clear");
         config = configuracoes_de_fase[nivel-1];
-
+        
         imprimir_em_cima(9, 20, level_up[0], 1, 6, 1, 0);
         pausa(); system("clear");
 
@@ -36,6 +36,7 @@ int main(){
 
         abates_totais += player.abates;
 
+        system("clear");
         if(vitoria){
             imprimir_em_cima(9, 20, level_up[nivel], 1, 6, 5, 0.1);
             if(nivel == 3) break;

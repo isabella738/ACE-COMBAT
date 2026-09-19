@@ -1,6 +1,6 @@
 #include "settings.h"
 
-char barra_de_vida[20] = {"| | | | | | | | | |"};
+char barra_de_vida[21] = {"||||||||||||||||||||"};
 
 char mapa[ALTURA][LARGURA+1]={
     "_____________________",//0
@@ -203,4 +203,3 @@ char level_up[][9][20] = {//escrever em (1x, 6y)
         "    + + + + + +    ",
     },
 };
-

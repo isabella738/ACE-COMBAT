@@ -1,5 +1,3 @@
-//#include <termios.h>
-
 #ifndef SETTINGS
 
 #define SETTINGS
@@ -11,6 +9,7 @@
 #define MAX_PROJETEIS 50
 
 #define SEGUNDOS 1000000
+#define FPS 20 //1 frame dura 1/20 = 0.05 segundos
 
 #define VOLTAR "\033[H"
 

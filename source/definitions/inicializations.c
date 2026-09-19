@@ -1,5 +1,5 @@
 #include "settings.h"
-#include "sprites.h"
+
 /*
     Struct Entidade
 
@@ -100,55 +100,36 @@ Entidade inicializar_inimigo[] = {
     },
 };
 
-Cooldowns inicializar_cooldowns[] = {
+Config configuracoes_de_fase[] = {
     /*
         int spawn_inimigo;
         int ativar_VidaExtra;
         int desativar_VidaExtra;
-        int andar_inimigo; //interno
-        int atirar_inimigo; //interno
-    */
-
-    {//fase 1
-        10,
-        10,
-        2,
-        0,
-        0
-    },
-    {//fase 2
-        10,
-        10,
-        2,
-        0,
-        0
-    },
-    {//fase 3 (Boss)
-        10,
-        10,
-        2,
-        0,
-        0
-    }
-};
-
-Config configuracoes_de_fase[] = {
-    /*
         int vida_extra;
         int pontos_minimos;
+        int pontos_por_abate;
     */
 
     {//fase 1
+        10,
+        10,
+        2,
         1,
         20,
         10
     },
     {//fase 2
+        10,
+        10,
+        2,
         2,
         30,
         15,
     },
     {//fase 3 (Boss)
+        10,
+        10,
+        2,        
         3,
         0,
         150

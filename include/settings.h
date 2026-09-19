@@ -10,9 +10,9 @@
 #define MAX_INIMIGOS 20
 #define MAX_PROJETEIS 50
 
-#define SEGUNDOS 100000
+#define SEGUNDOS 1000000
 
-#define APAGAR "\033[H"
+#define VOLTAR "\033[H"
 
 #define VERMELHO "\033[031m"
 #define VERDE  "\033[032m"
@@ -68,11 +68,6 @@ typedef struct{
     int spawn_inimigo;
     int ativar_VidaExtra;
     int desativar_VidaExtra;
-    int andar_inimigo; //interno
-    int atirar_inimigo; //interno
-}Cooldowns;
-
-typedef struct{
     int vida_extra;
     int pontos_minimos;
     int pontos_por_abate;
@@ -82,11 +77,11 @@ extern Entidade inimigo[MAX_INIMIGOS];
 extern Entidade player; 
 extern Boss boss; 
 extern Coordenada vida; 
-extern Cooldowns cd; 
 extern Config config; 
 extern int nivel;
 extern int pontos;
 extern int abates_totais;
+extern int max_inm;
 extern char cores[][10];
 
 #endif

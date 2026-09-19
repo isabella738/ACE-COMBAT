@@ -1,7 +1,7 @@
 #include "settings.h"
 
-void imprimir_mapa(Entidade player, Entidade inimigo[], Coordenada vida, int max, int nivel);
+void imprimir_mapa(int max);
 
-int main_game(int nivel);
+int main_game();
 
-int boss_fight(Boss boss);
+int boss_fight();

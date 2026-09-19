@@ -1,26 +1,28 @@
 COMPILADOR = gcc
 CFLAGS = -Iinclude
 
-OBJ_DIR = obj
+#Cria uma pasta chamada 'objects' que sera o diretorio dos arquivos objeto (.o)
+OBJ_DIR = objects
 
-_OBJ = definitions.o inicializacoes.o sprites.o auxiliares.o cutscenes.o main.o allmain.o  
-OBJ = $(patsubst %.o,$(OBJ_DIR)/%.o,$(_OBJ))
+#'FONTES' referencia todos os arquivos .c do projeto
+FONTES = $(shell find source -type f -name "*.c")
 
-CABECALHOS = include/auxiliares.h \
-             include/cutscenes.h \
-             include/inicializacoes.h \
-             include/main.h \
-             include/settings.h \
-             include/sprites.h
+#Gera arquivos objetos de todos os arquivos de FONTES
+OBJ = $(FONTES:source/%.c=$(OBJ_DIR)/%.o)
 
+#'CABECALHOS' referencia todos os arquivos .h do projeto
+CABECALHOS = $(shell find source -type f -name "*.h")
+
+#Regra de compilacao dos .c
 $(OBJ_DIR)/%.o: source/%.c $(CABECALHOS)
-	mkdir -p $(OBJ_DIR)
-	$(COMPILADOR) -c -o $@ $< $(CFLAGS)
+	@mkdir -p $(dir $@)
+	$(COMPILADOR) $(CFLAGS) -c $< -o $@
 
+# Linkagem
 acecombat: $(OBJ)
 	$(COMPILADOR) -o $@ $^
 
 .PHONY: clean
 
 clean:
-	rm -f $(OBJ_DIR)/*.o acecombat
+	rm -rf $(OBJ_DIR) acecombat

@@ -10,7 +10,7 @@
 #define MAX_INIMIGOS 20
 #define MAX_PROJETEIS 50
 
-#define SEGUNDOS 1000000
+#define SEGUNDOS 100000
 
 #define APAGAR "\033[H"
 
@@ -21,16 +21,6 @@
 #define BRANCO "\033[37m"
 #define CINZA "\033[90m"
 #define RESET  "\033[0m"
-
-char cores[][10] = {
-    RESET,
-    BRANCO,
-    VERMELHO,
-    AMARELO,
-    VERDE,
-    AZUL,
-    CINZA
-};
 
 typedef struct{
     int x, y;
@@ -88,11 +78,15 @@ typedef struct{
     int pontos_por_abate;
 }Config;
 
-Entidade inimigo[MAX_INIMIGOS]; //settings
-Entidade player; //settings
-Entidade boss; //settings
-Coordenada vida; //settings
-Cooldowns cd; //settings
-Config config; //settings
+extern Entidade inimigo[MAX_INIMIGOS]; 
+extern Entidade player; 
+extern Boss boss; 
+extern Coordenada vida; 
+extern Cooldowns cd; 
+extern Config config; 
+extern int nivel;
+extern int pontos;
+extern int abates_totais;
+extern char cores[][10];
 
 #endif

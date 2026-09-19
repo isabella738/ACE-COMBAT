@@ -18,19 +18,13 @@ int main(){
     mudar_terminal();
     fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
 
-    extern Entidade player;
-    extern Entidade inimigo[];
-    extern Coordenada vida;
-    extern Cooldowns cd;
-    extern Config config;
-    extern Boss boss;
-    int nivel, vitoria, pontos = 0, abates_totais;
-
+    int vitoria=0;
+    
     while(1){
         system("clear");
         config = configuracoes_de_fase[nivel-1];
 
-        imprimir_em_cima(level_up[0], 1, 6, 9, 20, 1);
+        imprimir_em_cima(9, 20, level_up[0], 1, 6, 1);
         pausa(); apagar_tela();
 
         if(nivel==0){
@@ -43,7 +37,7 @@ int main(){
         abates_totais += player.abates;
 
         if(vitoria){
-            imprimir_em_cima(level_up[nivel], 1, 6, 9, 20, 5);
+            imprimir_em_cima(9, 20, level_up[nivel], 1, 6, 5);
             if(nivel == 3) break;
 
             printf("- Novo Aviao!\n- + Vida!\n- + Dano!\n\n"); pausa();

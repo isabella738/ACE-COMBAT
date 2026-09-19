@@ -4,16 +4,9 @@
 #include "auxiliares.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #ifdef SETTINGS
-
-extern Entidade inimigo[];
-extern Entidade player;
-extern Coordenada vida;
-extern Cooldowns cd;
-extern Config config;
-extern int nivel;
-extern int pontos;
 
 void spawn_player(){
     player = inicializar_player[nivel-1];
@@ -85,7 +78,7 @@ void inicializar_constantes(){
 
 //
 
-int switch_estados(Entidade *p, int i, int max){
+int switch_estados(Entidade *p, int i, int *max){
     if(p->estado == 1) p->estado = 0;
     else if(p->estado == 2){
         p->estado++;
@@ -216,13 +209,13 @@ int movimentacao_projeteis(Entidade *p, int tipo, int max){//tipo 1 = player; 0 
     for(int i=0; i<p->n_projeteis; i++){
         if(tipo){//o projetil é do player
             p->projetil[i].y--;
-            if(p->projetil[i].y < 1) apagar_projetil(p->projetil, i, p->n_projeteis);
+            if(p->projetil[i].y < 1) apagar_projetil(p->projetil, i, &p->n_projeteis);
 
             dano_ao_inimigo(&player.projetil[i], max, i);
         }
         else{//o projetil é do inimigo
             p->projetil[i].y++;
-            if(p->projetil[i].y > ALTURA-1) apagar_projetil(p->projetil, i, p->n_projeteis);
+            if(p->projetil[i].y > ALTURA-1) apagar_projetil(p->projetil, i, &p->n_projeteis);
             
             if(colisao(p->projetil[i], player)) n++;
         }
@@ -261,8 +254,8 @@ void imprimir_mapa(int max){
 }
 
 int main_game(int nivel){
-    imprimir_em_cima(tela_mudanca_de_nivel[nivel], 2, 6, 9, 18, 5);
-    pausas();
+    imprimir_em_cima(9, 18, tela_mudanca_de_nivel[nivel], 2, 6, 5);
+    pausa();
 
     spawn_player(nivel);
     inicializar_constantes(nivel);
@@ -276,7 +269,7 @@ int main_game(int nivel){
 
         int atirar=0, dano=0;
         
-        decrescer_cooldowns(max_inm);
+        decrescer_cooldowns(&max_inm);
 
         movimentacao_player(&atirar);
         movimentacao_projeteis(&player, 1, max_inm);
@@ -308,8 +301,8 @@ int main_game(int nivel){
 }
 
 int boss_fight(Boss boss){
-    imprimir_em_cima(tela_mudanca_de_nivel[nivel], 2, 6, 9, 18, 5);
-    apausas();
+    imprimir_em_cima(9, 18, tela_mudanca_de_nivel[nivel], 2, 6, 5);
+    pausa();
 
     spawn_player(nivel);
     inicializar_constantes(nivel);

@@ -3,6 +3,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdio.h>
 
 #ifdef SETTINGS
 
@@ -49,12 +50,12 @@ int imprimir_projeteis(int x, int y, Entidade entidade){
     return 0;
 }
 
-void imprimir_em_cima(char *imagem, int dx, int dy, int altura, int largura, int cor){
+void imprimir_em_cima(int altura, int largura, char imagem[altura][largura], int dx, int dy, int cor){
     for(int y=0; y<ALTURA; y++){
         for(int x=0; x<LARGURA; x++){
             if(x >= dx && x < dx + largura
             && y >= dy && y < dy + altura){
-                printf("%s%c"RESET, cores[cor], *(imagem + ((y-dy)*LARGURA) + (x-dx)) );
+                printf("%s%c"RESET, cores[cor], imagem[y-dy][x-dx]);
             }
             else printf(CINZA"%c"RESET, mapa[y][x]);
             

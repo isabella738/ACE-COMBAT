@@ -3,7 +3,7 @@ CFLAGS = -Iinclude
 
 OBJ_DIR = obj
 
-_OBJ = allmain.o auxiliares.o cutscenes.o main.o
+_OBJ = definitions.o inicializacoes.o sprites.o auxiliares.o cutscenes.o main.o allmain.o  
 OBJ = $(patsubst %.o,$(OBJ_DIR)/%.o,$(_OBJ))
 
 CABECALHOS = include/auxiliares.h \

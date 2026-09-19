@@ -8,7 +8,7 @@ int imprimir_entidade(int x, int y, Entidade entidade, char sprite[][2][3][8], i
 
 int imprimir_projeteis(int x, int y, Entidade entidade);
 
-void imprimir_em_cima(char *imagem, int dx, int dy, int altura, int largura, int cor);
+void imprimir_em_cima(int altura, int largura, char imagem[altura][largura], int dx, int dy, int cor);
 
 void pausa();
 

@@ -7,7 +7,7 @@
 
 #ifdef SETTINGS
 
-int imprimir_entidade(int x, int y, Entidade entidade, char sprite[][2][3][8], int nivel){
+int imprimir_entidade(int x, int y, Entidade entidade, char sprite[][2][3][8]){
     if(x >= entidade.p.x && x < entidade.p.x + entidade.largura
     && y >= entidade.p.y && y < entidade.p.y + entidade.altura){
         switch(entidade.estado){
@@ -26,13 +26,22 @@ int imprimir_entidade(int x, int y, Entidade entidade, char sprite[][2][3][8], i
     return 0;
 }
 
-int imprimir_projeteis(int x, int y, Entidade entidade, int cor){
-    for(int i=0; i < entidade.n_projeteis; i++){
-        if(entidade.projetil[i].x == x && entidade.projetil[i].y == y){
-            printf("%s*" RESET, cores[cor]);
-            return 1;
+int imprimir_projeteis(int x, int y, Entidade e){
+
+    for(int i=0; i < e.q_ataques; i++){
+        for(int j=0; j < e.tiros_ps[i]; i++){
+            for(int k=0; k < e.indices[i][j]; k++){
+
+                Projetil prj = e.projetil[i][j][k];
+
+                if(x == prj.p.x && y == prj.p.y){
+                    printf("%s%c"RESET, cores[prj.cor], prj.c);
+                    return 1;
+                }
+            }
         }
     }
+
     return 0;
 }
 
@@ -75,16 +84,16 @@ void imprimir_mapa(){
             int imp=0; //indica se aquela celula já foi impressa
 
             //Player
-            imp = imprimir_entidade(x, y, player, sprite_player, nivel);
-            if(!imp) imp = imprimir_projeteis(x, y, player, 3);
+            imp = imprimir_entidade(x, y, player, sprite_player);
+            if(!imp) imp = imprimir_projeteis(x, y, player);
             
             //Inimigos
             if(!imp) for(int i=0; i < max_inm && imp == 0; i++){
-                imp = imprimir_entidade(x, y, inimigo[i], sprite_inimigos, nivel);
+                imp = imprimir_entidade(x, y, inimigo[i], sprite_inimigos);
             }
             
             if(!imp) for(int i=0; i < max_inm && imp == 0; i++){
-                imp = imprimir_projeteis(x, y, inimigo[i], 2);
+                imp = imprimir_projeteis(x, y, inimigo[i]);
             }
 
             if(!imp) if(vida.x == x && vida.y == y){

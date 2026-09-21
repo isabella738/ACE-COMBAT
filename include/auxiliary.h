@@ -1,8 +1,8 @@
 #include "settings.h"
 
-int imprimir_entidade(int x, int y, Entidade entidade, char sprite[][2][3][8], int nivel);
+int imprimir_entidade(int x, int y, Entidade entidade, char sprite[][2][3][8]);
 
-int imprimir_projeteis(int x, int y, Entidade entidade, int cor);
+int imprimir_projeteis(int x, int y, Entidade entidade);
 
 void imprimir_em_cima(int altura, int largura, char imagem[altura][largura], int dx, int dy, int cor, float tempo);
 

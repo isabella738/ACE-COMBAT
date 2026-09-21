@@ -1,11 +1,15 @@
 #include "settings.h"
 
-void cd_inimigos();//
-
 void spawn_inimigo(Entidade *p);
+
+void cd_inimigos(Entidade *p);//
+
+void alternar_ataque(Entidade *p);//
 
 void movimentacao_inimigos(Entidade *p);//
 
-int switch_estados(Entidade *p, int i);
+int switch_estados(Entidade *p);//
 
-void colisao_inimigo_player();//
+void inimigos_acoes();
+
+

@@ -2,11 +2,14 @@
 
 #define SETTINGS
 
-#define LARGURA 21
+#define LARGURA 21 
 #define ALTURA 21
 #define LINHA_LIMITE 12
 #define MAX_INIMIGOS 20
-#define MAX_PROJETEIS 50
+#define MAX_PROJETEIS 10
+#define MAX_ATAQUES 2 
+#define MAX_TPS 3 //tiros por segundo
+#define MAX_NIVEIS 3
 
 #define SEGUNDOS 1000000
 #define FPS 20 //1 frame dura 1/20 = 0.05 segundos
@@ -26,42 +29,32 @@ typedef struct{
 }Coordenada;
 
 typedef struct{
-    /*
-        Informacoes da entidade
-    */
+    Coordenada p;
+    Coordenada direcao; 
+    Coordenada spawn;
+    int dano;
+    int cor;
+    char c;
+}Projetil;
+
+typedef struct{
     Coordenada p;
     int vida;
     int largura;
     int altura;
     int estado; // 0. Normal; 1. Tomou Dano; 2. Morto
-    int ativo;
-    int abates;
     
-    /*
-        Informacoes dos projeteis
-    */
-    int dano; //Dano causado por 1 projetil
-    int projetil_duplo; //Indica se o modelo do aviao permite lancar dois projeteis de vez
-    int n_projeteis;
-    Coordenada projetil[MAX_PROJETEIS];
+    Projetil projetil[MAX_ATAQUES][MAX_TPS][MAX_PROJETEIS];
+    int indices[MAX_ATAQUES][MAX_TPS];
+    int tiros_ps[MAX_ATAQUES];
+    int q_ataques;
+    int ataque_ativo;
 
-    /*
-        Cooldowns (somente para inimigos)
-    */
+    //Exclusivo dos inimigos
+    int cd_ataque;
     int cd_andar;
     int cd_atirar;
 }Entidade;
-
-typedef struct{
-    Coordenada p;
-    int vida;
-    int estado;
-    int dano;
-    int ataque;
-
-    Coordenada projetil1[MAX_PROJETEIS];
-    Coordenada projetil2[MAX_PROJETEIS];
-}Boss;
 
 typedef struct{
     int spawn_inimigo;
@@ -74,7 +67,7 @@ typedef struct{
 
 extern Entidade inimigo[MAX_INIMIGOS]; 
 extern Entidade player; 
-extern Boss boss; 
+extern Entidade boss; 
 extern Coordenada vida; 
 extern Config config; 
 extern int nivel;

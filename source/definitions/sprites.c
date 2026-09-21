@@ -1,4 +1,4 @@
-#include "settings.h"
+#include "settings.h" 
 
 char barra_de_vida[21] = {"||||||||||||||||||||"};
 

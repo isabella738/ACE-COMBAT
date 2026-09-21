@@ -1,5 +1,5 @@
 COMPILADOR = gcc
-CFLAGS = -Iinclude
+CFLAGS = -Iinclude -g
 
 #Cria uma pasta chamada 'objects' que sera o diretorio dos arquivos objeto (.o)
 OBJ_DIR = objects

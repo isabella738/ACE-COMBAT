@@ -1,8 +1,10 @@
 #include "settings.h"
 #include "auxiliary.h"
 #include "main.h"
-#include "inicializations.h"
+#include "definitions.h"
 #include "cutscenes.h"
+#include "general_funcions.h"
+#include "sprites.h"
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -30,11 +32,10 @@ int main(){
         if(nivel==1){
             printf("Dica: Use awsd para se movimentar e k para atirar.\n"); pausa(); system("clear");
         }
-
+        
+        pre_processamento();
         if(nivel == 3) vitoria = boss_fight(boss);
         else vitoria = main_game();
-
-        abates_totais += player.abates;
 
         system("clear");
         if(vitoria){

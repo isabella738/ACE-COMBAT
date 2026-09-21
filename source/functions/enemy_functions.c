@@ -1,37 +1,11 @@
 #include "settings.h"
-#include "inicializations.h"
-#include "general_funcions.h"
+#include "definitions.h"
+#include "general_funcions.h" 
 #include <stdlib.h>
 
-int switch_estados(Entidade *p, int i){
-    switch(p->estado){
-        case 1:
-            p->estado = 0;
-            break;
-        case 2:
-            p->estado++;
-            player.abates++;
-            pontos += config.pontos_por_abate;
-            break;
-        case 3:
-            p->estado++;
-            break;
-        case 4:
-            apagar_entidade(inimigo, i, &max_inm);
-            return 1;
-    }
-    return 0;
-}
-
-void cd_inimigos(){
-    for(int i=0; i < max_inm; i++){
-        inimigo[i].cd_andar--;
-        inimigo[i].cd_atirar--;
-        if(switch_estados(&inimigo[i], i)) i--;
-    }
-}
-
 void spawn_inimigo(Entidade *p){
+    if(max_inm >= MAX_INIMIGOS - 1) return;
+
     (*p) = inicializar_inimigo[nivel-1];
 
     int a;
@@ -55,14 +29,31 @@ void spawn_inimigo(Entidade *p){
     max_inm++;
 }
 
+void cd_inimigos(Entidade *p){
+    p->cd_andar--;
+    p->cd_atirar--;
+    if(p->q_ataques > 1) p->cd_ataque--;
+}
+
+void alternar_ataque(Entidade *p){
+    if(p->q_ataques > 1 && !p->cd_ataque){
+        int n = rand()%(p->q_ataques);
+        p->ataque_ativo = n;
+
+        p->cd_ataque = inicializar_inimigo[nivel-1].cd_ataque;
+    }
+}
+
 void movimentacao_inimigos(Entidade *p){
-    if(p->ativo && p->p.y < LINHA_LIMITE && !p->cd_andar){
+    if(p->p.y < LINHA_LIMITE - p->altura && !p->cd_andar){
         int continuar=1;
 
         for(int i=0; i<max_inm; i++){
-            if(inimigo[i].ativo 
-            && p->p.y + p->altura + 1 == inimigo[i].p.y
-            && p->p.x >= inimigo[i].p.x && p->p.x < inimigo[i].p.x + inimigo[i].largura){
+            if(
+                p->p.y + p->altura + 1 == inimigo[i].p.y && 
+                p->p.x >= inimigo[i].p.x && 
+                p->p.x < inimigo[i].p.x + inimigo[i].largura
+            ){
                 continuar = 0; break;
             }
         }
@@ -71,16 +62,49 @@ void movimentacao_inimigos(Entidade *p){
     }
 }
 
-void colisao_inimigo_player(){
+int switch_estados(Entidade *p){
+    switch(p->estado){
+        case 0: break;
+        case 1:
+            p->estado = 0;
+            break;
+        case 2:
+            p->estado++;
+            pontos += config.pontos_por_abate;
+            abates_totais ++;
+            break;
+        default:
+            p->estado++;
+            break;
+    }
+    return 0;
+}
+
+void inimigos_acoes(){
     for(int i=0; i<max_inm; i++){
-        for(int j=0; j<inimigo[i].n_projeteis; j++){
+        
+        cd_inimigos(&inimigo[i]);
 
-            if (colisao(inimigo[i].projetil[j], player)){
-                
-                apagar_projetil(inimigo[i].projetil, j, &inimigo[i].n_projeteis);
-
-                player.vida -= inimigo[i].dano;
-            }
+        alternar_ataque(&inimigo[i]);
+        movimentacao_inimigos(&inimigo[i]);
+        
+        if(!inimigo[i].cd_atirar){
+            spawn_projetil(&inimigo[i], 0);
+            inimigo[i].cd_atirar = inicializar_inimigo[nivel-1].cd_atirar;
         }
+
+        if(!inimigo[i].vida){
+            inimigo[i].estado = 2;
+        }
+        
+        projeteis_acoes(&inimigo[i], 1);
+
+        switch_estados(&inimigo[i]);
+
+        if(inimigo[i].estado >= 7){//significa que o aviao vai ficar "explodido" por 5 frames
+            apagar_entidade(inimigo, i, &max_inm);
+            i--;
+        }
+
     }
 }

@@ -5,7 +5,8 @@
 #define LARGURA 21 
 #define ALTURA 21
 #define LINHA_LIMITE 12
-#define MAX_INIMIGOS 20
+
+#define MAX_INIMIGOS 10
 #define MAX_PROJETEIS 10
 #define MAX_ATAQUES 2 
 #define MAX_TPS 3 //tiros por segundo
@@ -26,11 +27,11 @@
 
 typedef struct{
     int x, y;
-}Coordenada;
+}Coordenada; 
 
 typedef struct{
     Coordenada p;
-    Coordenada direcao; 
+    Coordenada direcao;
     Coordenada spawn;
     int dano;
     int cor;
@@ -38,7 +39,9 @@ typedef struct{
 }Projetil;
 
 typedef struct{
-    Coordenada p;
+    Coordenada p; 
+    Coordenada direcao;
+    int *spawn;//diz respeito ao x da coordenada, já que o spawn sempre deve ocorrer fora da tela
     int vida;
     int largura;
     int altura;
@@ -61,13 +64,12 @@ typedef struct{
     int ativar_VidaExtra;
     int desativar_VidaExtra;
     int vida_extra;
-    int pontos_minimos;
+    int abates_minimos;
     int pontos_por_abate;
 }Config;
 
 extern Entidade inimigo[MAX_INIMIGOS]; 
 extern Entidade player; 
-extern Entidade boss; 
 extern Coordenada vida; 
 extern Config config; 
 extern int nivel;

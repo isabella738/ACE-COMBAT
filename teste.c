@@ -1,8 +1,22 @@
-#include "settings.h" 
+#include <stdio.h>
+#include <termios.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
 
-char barra_de_vida[21] = {"||||||||||||||||||||"};
+#define VOLTAR "\033[H"
+#define SEGUNDOS 1000000
+#define LARGURA 21 
+#define ALTURA 21
+#define VERMELHO "\033[031m"
+#define VERDE  "\033[032m"
+#define AMARELO "\033[033m"
+#define AZUL "\033[34m"
+#define BRANCO "\033[37m"
+#define CINZA "\033[90m"
+#define RESET  "\033[0m"
 
-char mapa[ALTURA][LARGURA+1]={
+char mapa[21][21+1]={
     "_____________________",//0
     "|                   |",
     "|                   |",
@@ -27,136 +41,37 @@ char mapa[ALTURA][LARGURA+1]={
 //   0    1    2    3    4
 };
 
-char sprite_inimigos[][2][ALTURA][LARGURA] = {
-    {//Inimigo de nivel 1
-        {
-            " ._. ",
-            "-=|=-",
-            "  V  ",
-        },
-        {
-            " +++ ",
-            "+++++",
-            "  +  ",
-        }
-    },
-    {//Inimigo de nivel 2
-        {
-            "  =|=  ",
-            "-=:|:=-",
-            "  V'V  ",
-        },
-        {
-            "  +++  ",
-            "+++++++",
-            "  +++  ",
-        },
-    },
-    {//inimigo 3
-        {
-            "\\    '\\ [=] /'    /",
-            " |\\ :  '. .'  : /| ",
-            " | |\\_  |I| __/| | ",
-            " '='  V\\:_:/V  '=' ",
-            "        | |        ",
-            "        '='        ",
-        },
-        {
-            "+     + +++ +     +",
-            " ++ +  +   +  + ++ ",
-            " + ++   +++   ++ + ",
-            " +++  +++ +++  +++ ",
-            "        + +        ",
-            "        +++        ",
-        }
+char cores[][10] = {
+    RESET,
+    BRANCO,
+    VERMELHO,
+    AMARELO,
+    VERDE,
+    AZUL,
+    CINZA
+};
+
+void imprimir_em_cima(int altura, int largura, char imagem[altura][largura], int dx, int dy, int cor, float tempo){
+
+    for(int y=0; y<ALTURA; y++){
+        printf(CINZA"%s\n"RESET, mapa[y]);
     }
-};
+    printf(VOLTAR);
 
-char sprite_player[][2][ALTURA][LARGURA] = {
-    {//Player de nivel 1
-        {
-            " _A_ ",
-            "/_!_\\",
-            "  ^  ",
-        },
-        {
-            "  +  ",
-            "+++++",
-            "  +  ",
-        },
-    },
-    {//Player de nivel 2
-        {
-            "_.A._",
-            "'-+-'",
-            " =!= ",
-        },
-        {
-            "  +  ",
-            "+++++",
-            " +++ ",
-        },
-    },
-    {//Player de nivel 3
-        {
-            "_A.A_",
-            "\\{+}/",
-            " :I: ",
-        },
-        {
-            " + + ",
-            "+++++",
-            " +++ ",
-        },
-    },
-};
+    for(int y=0; y<ALTURA; y++){
+        for(int x=0; x<LARGURA; x++){
+            
+            if(x >= dx && x < dx + largura && y >= dy && y < dy + altura){
+                printf("%s%c"RESET, cores[cor], imagem[y-dy][x-dx]);
+                if(tempo)fflush(stdout);
+                usleep(SEGUNDOS*tempo);
+            }
+            else printf(CINZA"%c"RESET, mapa[y][x]);
 
-char tela_mudanca_de_nivel[][9][18] = {//escrever em (2x, 6y)
-    {
-        "XXXXXXXXXXXXXXXXX",
-        " __   _        __",
-        "| _  |_| |\\/| |_ ",
-        "|__| | | |  | |__",
-        " _        __  _  ",
-        "| | |  | |_  |_| ",
-        "|_|  \\/  |__ | \\ ",
-        "                 ",
-        "XXXXXXXXXXXXXXXXX",
-    },
-    {
-        "-----------------",
-        "            __   ",
-        "|\\| | |  | |_  | ",
-        "| | |  \\/  |__ |_",
-        "                 ",
-        "       /|        ",
-        "       _|_       ",
-        "                 ",
-        "-----------------",
-    },
-    {
-        "-----------------",
-        "            __   ",
-        "|\\| | |  | |_  | ",
-        "| | |  \\/  |__ |_",
-        "       __        ",
-        "       __|       ",
-        "      |__        ",
-        "                 ",
-        "-----------------",
-    },
-    {
-        "X---------------X",
-        "__    __   _   _ ",
-        "|_!  |  | |_' |_'",
-        "|__| !__! ._| ._|",
-        " __    _      ___",
-        "|_  | | _ |_|  | ",
-        "|   | |_| | |  | ",
-        "                 ",
-        "X---------------X",
-    },
-};
+        }
+        printf("\n");
+    }
+}
 
 char level_up[][4][9][20] = {//escrever em (1x, 6y)
     {//tela inicial
@@ -344,3 +259,39 @@ char level_up[][4][9][20] = {//escrever em (1x, 6y)
         },
     },
 };
+
+struct termios velho_terminal, novo_terminal;
+void mudar_terminal(){
+    tcgetattr(STDIN_FILENO, &velho_terminal);
+    novo_terminal = velho_terminal;
+
+    novo_terminal.c_lflag &= ~(ICANON | ECHO);
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &novo_terminal);
+}
+
+void subida_de_nivel(int nivel){
+    int a = 0;
+
+    while(1){
+        printf(VOLTAR); usleep(SEGUNDOS*0.5);
+        imprimir_em_cima(9, 20, level_up[nivel][a], 1, 6, 3, 0);
+        a++;
+        if(a==4)a=0;
+
+        char c;
+        if(read(STDIN_FILENO, &c, 1) > 0) break;
+
+        printf("\nPressione qualquer tecla para continuar.\n\n");
+    }
+    system("clear");
+}
+
+
+int main(){
+    mudar_terminal();
+    fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
+
+    subida_de_nivel(3);
+    return 0;
+}

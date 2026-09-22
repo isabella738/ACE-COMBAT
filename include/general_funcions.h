@@ -21,7 +21,14 @@ int movimentacao_projeteis(Projetil *p);//
 
 int colisao(Coordenada projetil, Entidade entidade);
 
+int colisao_matrizes(Coordenada p1, int a1, int c1, Coordenada p2, int a2, int c2);
+
 void projeteis_acoes(Entidade *e, int tipo);//tipo 0: entidade é player; tipo 1: entidade é inimigo
+
+int saiu_do_mapa(Entidade e);
+
+//Chefoes
+void inicializar_boss1();
 
 //
 void info_para_debug();

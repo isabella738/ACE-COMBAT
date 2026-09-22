@@ -1,5 +1,6 @@
 #include "settings.h"
 #include "sprites.h"
+#include "definitions.h"
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -7,7 +8,20 @@
 
 #ifdef SETTINGS
 
-int imprimir_entidade(int x, int y, Entidade entidade, char sprite[][2][3][8]){
+void limpar_buffer(){
+    char c;
+    while (read(STDIN_FILENO, &c, 1) > 0);
+}
+
+void pausa(){
+    printf("Pressione qualquer tecla para continuar.\n");
+    char c;
+    while(1){
+        if(read(STDIN_FILENO, &c, 1) > 0) break;
+    }
+}
+
+int imprimir_entidade(int x, int y, Entidade entidade, char sprite[][2][ALTURA][LARGURA]){
     if(x >= entidade.p.x && x < entidade.p.x + entidade.largura
     && y >= entidade.p.y && y < entidade.p.y + entidade.altura){
         switch(entidade.estado){
@@ -17,7 +31,7 @@ int imprimir_entidade(int x, int y, Entidade entidade, char sprite[][2][3][8]){
             case 1: 
                 printf(VERMELHO "%c" RESET, sprite[nivel-1][0][y - entidade.p.y][x - entidade.p.x]);
                 break;
-            case 2: 
+            default: 
                 printf(AMARELO "%c" RESET, sprite[nivel-1][1][y - entidade.p.y][x - entidade.p.x]);
                 break;
         }
@@ -31,12 +45,11 @@ int imprimir_projeteis(int x, int y, Entidade e){
     for(int i=0; i < e.q_ataques; i++){
         for(int j=0; j < e.tiros_ps[i]; j++){
             for(int k=0; k < e.indices[i][j]; k++){
-
+                
                 Projetil prj = e.projetil[i][j][k];
 
                 if(x == prj.p.x && y == prj.p.y){
                     printf("%s%c"RESET, cores[prj.cor], prj.c);
-                    
                     return 1;
                 }
 
@@ -48,7 +61,7 @@ int imprimir_projeteis(int x, int y, Entidade e){
 }
 
 void imprimir_em_cima(int altura, int largura, char imagem[altura][largura], int dx, int dy, int cor, float tempo){
-    
+
     for(int y=0; y<ALTURA; y++){
         printf(CINZA"%s\n"RESET, mapa[y]);
     }
@@ -56,24 +69,28 @@ void imprimir_em_cima(int altura, int largura, char imagem[altura][largura], int
 
     for(int y=0; y<ALTURA; y++){
         for(int x=0; x<LARGURA; x++){
-            if(x >= dx && x < dx + largura - 1 && y >= dy && y < dy + altura){
+            
+            if(x >= dx && x < dx + largura && y >= dy && y < dy + altura){
                 printf("%s%c"RESET, cores[cor], imagem[y-dy][x-dx]);
-                fflush(stdout);
-                usleep(0.005*SEGUNDOS);
+                if(tempo)fflush(stdout);
+                usleep(SEGUNDOS*tempo);
             }
             else printf(CINZA"%c"RESET, mapa[y][x]);
+
         }
         printf("\n");
     }
 }
 
-void imprimir_barra_de_vida(int x, int max){
+void imprimir_barra_de_vida(){
+    int x = player.vida, max = inicializar_player[nivel-1].vida;
+
     int a;
     if(x*100/max > 50) a = 4;
     else if(x*100/max >25) a = 3;
     else a = 2;
 
-    printf("%d %s", player.vida, cores[a]);
+    printf("%d %s", x, cores[a]);
     for(int i=0; i < 20*x/max; i++){
         printf("%c", barra_de_vida[i]);
     }
@@ -112,19 +129,29 @@ void imprimir_mapa(){
 }
 
 //
-
-void pausa(){
-    printf("Pressione qualquer tecla para continuar.\n");
-    char c;
-    while(1){
-        if(read(STDIN_FILENO, &c, 1) > 0) break;
-    }
-}
-
-void informacoes_finais(int pontos, int abates_totais, int nivel){
+void informacoes_finais(){
     printf("\nPontuacao final: %d\n", pontos);
     printf("Numero de avioes abatidos: %d\n", abates_totais);
     printf("Nivel mais alto: %d\n", nivel);
+}
+
+void mensagem_de_mudanca_de_nivel(){
+    switch(nivel){
+        case 1:
+            printf("VIDA +10\n");
+            printf("DANO +1\n");
+            printf("AVIAO + PODEROSO!\n");
+            break;
+        case 2:
+            printf("VIDA +10\n");
+            printf("TIRO DUPLO!\n");
+            printf("AVIAO + PODEROSO!\n");
+            break;
+        case 3:
+            informacoes_finais();
+            printf("\nPor sua causa, os ceus agora estao a salvo!\nBom jogo!");
+            break;
+    }
 }
 
 struct termios velho_terminal, novo_terminal;

@@ -29,7 +29,7 @@ void movimentacao_player(int *atirar){
                 if(y > LINHA_LIMITE) player.p.y--;
                 break;
             case 's':
-                if(y < ALTURA - player.altura) player.p.y++;
+                if(y < ALTURA - player.altura -1) player.p.y++;
                 break;
             case 'd':
                 if(x < LARGURA - 1 - player.largura) player.p.x++;
@@ -43,7 +43,7 @@ void movimentacao_player(int *atirar){
 
 void player_acoes(){
     int atirar=0;
-
+    
     movimentacao_player(&atirar);
 
     if(atirar) spawn_projetil(&player, 1);

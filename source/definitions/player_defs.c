@@ -3,7 +3,9 @@
 Entidade inicializar_player[] = {
     {//nivel 1
         {8, 17}, 
-        20, 
+        {0},
+        0,
+        20,  
         5,  
         3,
         0,
@@ -20,6 +22,8 @@ Entidade inicializar_player[] = {
     },
     {//nivel 2
         {8, 17}, 
+        {0},
+        0,
         30,
         5,
         3,
@@ -37,6 +41,8 @@ Entidade inicializar_player[] = {
     },
     {//nivel 3
         {8, 17},
+        {0},
+        0,
         50,
         5,
         3,

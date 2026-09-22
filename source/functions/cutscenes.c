@@ -10,7 +10,7 @@
 void gameover(){
         
     while(player.p.y <= ALTURA){
-        printf(VOLTAR"\n\n");
+        printf(VOLTAR"\n");
         imprimir_mapa();
         player.p.y++;
         usleep(0.5*SEGUNDOS);
@@ -21,23 +21,59 @@ void gameover(){
 }
 
 void Boss_Entering(){
-    while(boss.p.y < 1){
+    system("clear");
+    while(inimigo[0].p.y < 1){
+        inimigo[0].p.y++;
+
         printf(VOLTAR);
-        imprimir_em_cima(6, 20, sprite_boss[0], 1, -6, 1, 0);
-        boss.p.y++;
+        
+        imprimir_em_cima(
+            inimigo[0].altura, 
+            inimigo[0].largura+2, 
+            sprite_inimigos[nivel-1][0], 
+            inimigo[0].p.x, 
+            inimigo[0].p.y, 
+            2, 
+            0
+        );
+
+        
         usleep(SEGUNDOS);
     }
-    usleep(3*SEGUNDOS);
+    usleep(2*SEGUNDOS);
 }
 
 void Boss_Exit(){
-    while(boss.p.y > -6){
-        printf(VOLTAR);
-        imprimir_em_cima(6, 20, sprite_boss[0], 1, -6, 1, 0.01);
-        boss.p.y++;
-        usleep(SEGUNDOS*0.01);
+    system("clear");
+    while(inimigo[0].p.y >= -6){
+        printf(VOLTAR"\n");
+        
+        imprimir_mapa();
+
+        inimigo[0].p.y--;
+        usleep(SEGUNDOS);
     }
-    usleep(3*SEGUNDOS);
+    usleep(2*SEGUNDOS);
+}
+
+void subida_de_nivel(){
+    limpar_buffer();
+    int a = 0;
+
+    while(1){
+        printf(VOLTAR); usleep(SEGUNDOS*0.5);
+        imprimir_em_cima(9, 20, level_up[nivel][a], 1, 6, 3, 0);
+        a++;
+        if(a==4)a=0;
+
+        char c;
+        if(read(STDIN_FILENO, &c, 1) > 0) break;
+
+        mensagem_de_mudanca_de_nivel();
+
+        printf("\nPressione qualquer tecla para continuar.\n\n");
+    }
+    system("clear");
 }
 
 #endif

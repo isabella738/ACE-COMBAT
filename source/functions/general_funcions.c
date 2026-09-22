@@ -4,6 +4,7 @@
 #include "player_functions.h"
 #include "sprites.h"
 #include "auxiliary.h"
+#include "cutscenes.h"
 #include <stdlib.h>
 #include <stdio.h> 
 
@@ -44,8 +45,7 @@ void spawn_projetil(Entidade *e, int tipo){//tipo = 1, entidade é player
         e->projetil[n][i][max].p.x += e->p.x + e->projetil[n][i][j].spawn.x;
         e->projetil[n][i][max].p.y += e->p.y + e->projetil[n][i][j].spawn.y;
         e->indices[n][i]++;
-    }
-
+    } 
 }
 
 //Apagar
@@ -82,9 +82,38 @@ int movimentacao_projeteis(Projetil *p){
 int colisao(Coordenada projetil, Entidade entidade){
     if(
         projetil.x >= entidade.p.x && projetil.x < entidade.p.x + entidade.largura && 
-        projetil.y >= entidade.p.y && projetil.y < entidade.p.y + entidade.altura
+        projetil.y >= entidade.p.y-3 && projetil.y < entidade.p.y + entidade.altura
     ){
         return 1;
+    }
+    return 0;
+}
+
+int colisao_matrizes(Coordenada p1, int a1, int c1, Coordenada p2, int a2, int c2){
+    Coordenada matriz1[a1][c1], matriz2[a2][c2];
+
+    for(int i=0; i<a1; i++) for(int j=0; j<c1; j++)
+    {
+        matriz1[i][j].x = p1.x + j;
+        matriz1[i][j].y = p1.y + i;
+    }
+
+    for(int i=0; i<a2; i++) for(int j=0; j<c2; j++)
+    {
+        matriz2[i][j].x = p2.x + j;
+        matriz2[i][j].y = p2.y + i;
+    }
+
+    for(int i=0; i<a1; i++) for(int j=0; j<c1; j++){
+        for(int k=0; k<a2; k++) for(int l=0; l<c2; l++){
+            if(
+                matriz1[i][j].x == matriz2[k][l].x &&
+                matriz1[i][j].y == matriz2[k][l].y
+            )
+            {
+                return 1;
+            }
+        }
     }
     return 0;
 }
@@ -106,9 +135,9 @@ void projeteis_acoes(Entidade *e, int tipo){
                     if(colisao(e->projetil[n][i][j].p, player)){
 
                         player.vida -= e->projetil[n][i][j].dano;
+                        player.estado = 1;
 
                         apagar_projetil(e->projetil[n][i], j, &e->indices[n][i]);
-
                     }
                 }
                 else{
@@ -116,6 +145,7 @@ void projeteis_acoes(Entidade *e, int tipo){
                         if(colisao(e->projetil[n][i][j].p, inimigo[k])){
 
                             inimigo[k].vida -= e->projetil[n][i][j].dano;
+                            inimigo[k].estado = 1;
 
                             pontos++;
 
@@ -131,11 +161,18 @@ void projeteis_acoes(Entidade *e, int tipo){
     }
 }
 
+int saiu_do_mapa(Entidade e){
+    if(e.p.x + e.largura <= 0 || e.p.x >= LARGURA || e.p.y >= ALTURA){
+        return 1;
+    }
+    return 0;
+}
+
 //Config
 void cd_jogo(){
 
     //Spawn de novos inimigos
-    config.spawn_inimigo--;
+    if(config.spawn_inimigo > 0)config.spawn_inimigo--;
     if(!config.spawn_inimigo){
         spawn_inimigo(&inimigo[max_inm]); 
         
@@ -167,39 +204,63 @@ void inicializar_constantes(){
 };
 
 void pre_processamento(){
-    imprimir_em_cima(9, 18, tela_mudanca_de_nivel[nivel], 2, 6, 5, 0.01);
-    pausa(); system("clear");
+    //imprimir_em_cima(9, 18, tela_mudanca_de_nivel[nivel], 2, 6, 5, 0.01);
+    //pausa(); system("clear");
 
     spawn_player();
     inicializar_constantes(); 
 }
 
+//Chefoes
+void inicializar_boss1(){
+    max_inm = 1;
+    inimigo[0] = inicializar_inimigo[nivel-1];
+    Boss_Entering();
+}
+
 //
 void info_para_debug(){
     printf("\n");
-    printf("coord player: (%d, %d)     \n", player.p.x, player.p.y);
+    //printf("coord player: (%d, %d)     \n", player.p.x, player.p.y);
+    //printf("MAX_INM: %d    \n", max_inm);
+    printf("cd spawn inimigos: %d   \n", config.spawn_inimigo);
+    printf("vida boss: %d     \n", inimigo[0].vida);
+    printf("estado : %d   \n", inimigo[0].estado);
+    printf("cd ataque: %d    \n", inimigo[0].cd_ataque);
+    printf("cd atirar: %d    \n\n", inimigo[0].cd_atirar);
+    printf("ataque ativo: %d    \n", inimigo[0].ataque_ativo);
+    
+    printf("indice 0,0: %d    \n", inimigo[0].indices[0][0]);
+    printf("indice 0,1: %d    \n", inimigo[0].indices[0][1]);
+    printf("indice 0,2: %d    \n\n", inimigo[0].indices[0][2]);
+    /*
+    printf("indice 2,1: %d    \n", inimigo[0].indices[1][0]);
+    printf("indice 2,2: %d    \n", inimigo[0].indices[1][1]);
+    printf("indice 2,3: %d    \n", inimigo[0].indices[1][2]);
+    */
+    //printf("projetil[1][1][0]: (%d, %d)    \n", inimigo[0].projetil[1][1][0].p.x, inimigo[0].projetil[1][1][0].p.y);
+    //printf("projetil[1][1][1]: (%d, %d)    \n", inimigo[0].projetil[1][1][1].p.x, inimigo[0].projetil[1][1][1].p.y);
+    //printf("projetil[1][1][2]: (%d, %d)    \n", inimigo[0].projetil[1][1][2].p.x, inimigo[0].projetil[1][1][2].p.y);
+    //printf("projetil[1][1][3]: (%d, %d)    \n", inimigo[0].projetil[1][1][3].p.x, inimigo[0].projetil[1][1][3].p.y);
+    //printf("projetil[1][1][4]: (%d, %d)    \n", inimigo[0].projetil[1][1][4].p.x, inimigo[0].projetil[1][1][4].p.y);
+    //printf("projetil[1][1][5]: (%d, %d)    \n", inimigo[0].projetil[1][1][5].p.x, inimigo[0].projetil[1][1][5].p.y);
 
-    
-    
-    
-    
     //printf("inimigo[0].projetil[0][0][0] = (%d, %d)\n", inimigo[0].projetil[0][0][0].p.x, inimigo[0].projetil[0][0][0].p.y);
     //printf("inimigo[0].projetil[0][1][0] = (%d, %d)\n", inimigo[0].projetil[0][1][0].p.x, inimigo[0].projetil[0][1][0].p.y);
 
-    /*
-    printf("dano player: %d         \n", player.projetil[0][0][0].dano);
-    printf("dano inm: %d               \n", inimigo[0].projetil[0][0][0].dano);
+    //printf("dano player: %d         \n", player.projetil[0][0][0].dano);
+    //printf("dano inm: %d               \n", inimigo[0].projetil[0][0][0].dano);
 
-    printf("\n");
-    printf("numero de inimigos: %d     \n", max_inm);
-    printf("spawn_inimigo: %d      \n", config.spawn_inimigo);
+    //printf("\n");
+    //printf("numero de inimigos: %d     \n", max_inm);
+    //printf("spawn_inimigo: %d      \n", config.spawn_inimigo);
 
-    printf("\n");
-    printf("inimigo[0] = (%d, %d)\n", inimigo[0].p.x, inimigo[0].p.y);
-    printf("dano %d      \n", inimigo[0].projetil[0][0][0].dano);
-    printf("direcoes = (%d, %d)\n", inimigo[0].projetil[0][0][0].direcao.x, inimigo[0].projetil[0][0][0].direcao.y);
-    printf("Vida = %d               \n", inimigo[0].vida);
-    */
+    //printf("\n");
+    //printf("inimigo[0] = (%d, %d)     \n", inimigo[0].p.x, inimigo[0].p.y);
+    //printf("dano %d      \n", inimigo[0].projetil[0][0][0].dano);
+    //printf("direcoes = (%d, %d)\n", inimigo[0].projetil[0][0][0].direcao.x, inimigo[0].projetil[0][0][0].direcao.y);
+    //printf("Vida = %d               \n", inimigo[0].vida);
+    
     
     //printf("estado = %d\n", inimigo[0].estado);
     //printf("cd_atirar = %d\n", inimigo[0].cd_atirar);

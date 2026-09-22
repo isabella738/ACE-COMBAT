@@ -23,30 +23,24 @@ int main(){
 
     int vitoria=0;
 
-    imprimir_em_cima(9, 20, level_up[0], 1, 6, 1, 0);
-    pausa(); system("clear");
+    subida_de_nivel(); nivel++;
     
     while(1){
         system("clear");
         config = configuracoes_de_fase[nivel-1];
-        
 
         if(nivel==1){
             printf("Dica: Use awsd para se movimentar e k para atirar.\n"); pausa(); system("clear");
         }
         
         pre_processamento();
-        if(nivel == 3) vitoria = boss_fight();
-        else vitoria = main_game();
+        vitoria = main_game();
 
         system("clear");
+        limpar_buffer();
         if(vitoria){
-            imprimir_em_cima(9, 20, level_up[nivel], 1, 6, 5, 0.1);
-            if(nivel == 3) break;
-
-            printf("- Novo Aviao!\n- + Vida!\n- + Dano!\n\n"); 
-            getchar();
-            pausa();
+            subida_de_nivel();
+            if(nivel == MAX_NIVEIS) break;
             nivel++;
         }
         else{
@@ -54,8 +48,9 @@ int main(){
             break;
         }
     }
-    informacoes_finais(pontos, abates_totais, nivel);
-    printf("\nBom Jogo!\n");
+
+    if(!vitoria)
+        printf("Os ceus nao foram salvos, mas este ainda nao e o fim da historia.\nBom Jogo!\n");
 
     restaurar_terminal();
     return 0;

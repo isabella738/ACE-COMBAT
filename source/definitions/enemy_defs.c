@@ -1,8 +1,17 @@
 #include "settings.h"
 
+//10 numero simbolico; muda isso depois
+int spawn[][10] = { //o 1o elemento é o tamanho do array + 1
+    {3, 2, 8, 14},
+    {2, 3, 11},
+    {1, 1},
+};
+ 
 Entidade inicializar_inimigo[] = {
     {//nivel 1
         {0, -3},
+        {0, 1},
+        spawn[0],
         10,
         5,
         3,
@@ -20,6 +29,8 @@ Entidade inicializar_inimigo[] = {
     },
     {//nivel 2
         {0, -3},
+        {0, 1},
+        spawn[1],
         20,
         7,
         3,
@@ -36,15 +47,17 @@ Entidade inicializar_inimigo[] = {
         1*FPS
     },
     {//nivel 3 BOSS
-        {0, -3},
+        {1, -6},
+        {0, 1},
+        spawn[2],
         150,
         19,
         6,
-        0,
+        1,
 
         {0},
         {0},
-        {3, 2},
+        {3, 3},
         2,
         0,
 
@@ -61,7 +74,7 @@ Projetil inicializar_projetil_inimigo[][MAX_ATAQUES][MAX_TPS]= {
                 {0},
                 {0, 1},
                 {2, 1},
-                2,
+                1,
                 2,
                 '+',
             },
@@ -76,7 +89,7 @@ Projetil inicializar_projetil_inimigo[][MAX_ATAQUES][MAX_TPS]= {
                 {0},
                 {0, 1},
                 {2, 1},
-                2,
+                1,
                 2,
                 '+',
             },
@@ -84,7 +97,7 @@ Projetil inicializar_projetil_inimigo[][MAX_ATAQUES][MAX_TPS]= {
                 {0},
                 {0, 1},
                 {4, 1},
-                2,
+                1,
                 2,
                 '+',
             },
@@ -126,7 +139,7 @@ Projetil inicializar_projetil_inimigo[][MAX_ATAQUES][MAX_TPS]= {
                 {2, 4},
                 3,
                 2,
-                '*'
+                '&'
             },
             {//p2
                 {0},
@@ -134,10 +147,16 @@ Projetil inicializar_projetil_inimigo[][MAX_ATAQUES][MAX_TPS]= {
                 {16, 4},
                 3,
                 2,
-                '*'
+                '@'
             },
-            {0}
+            {//p3
+                {0},
+                {0, 1},
+                {9, 6},
+                2,
+                2,
+                '|'
+            },
         }
     }
 };
-

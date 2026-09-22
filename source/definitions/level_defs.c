@@ -6,8 +6,10 @@ Config configuracoes_de_fase[] = {
         int ativar_VidaExtra;
         int desativar_VidaExtra;
         int vida_extra;
-        int pontos_minimos;
+        int abates_minimos;
         int pontos_por_abate;
+
+        Obs: para fases com inimigos unicos, tipo as de chefao, colocar 'spawn_inimigo' como -1
     */
 
     {//fase 1
@@ -15,7 +17,6 @@ Config configuracoes_de_fase[] = {
         FPS*10,
         FPS*10,
         1,
-        //100,
         10,
         10
     },
@@ -24,16 +25,15 @@ Config configuracoes_de_fase[] = {
         FPS*10,
         FPS*10,
         2,
-        //300,
-        20,
+        15,
         15,
     },
     {//fase 3 (Boss)
-        0,
+        -1,
         FPS*10,
         FPS*10,        
         3,
-        0,
-        150
+        1,
+        300
     }
 };

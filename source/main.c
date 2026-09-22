@@ -27,13 +27,18 @@ int main_game(){
 
     max_inm=0; 
     int vitoria=0;
+    int abates=abates_totais;
+
+    if(nivel == 3) inicializar_boss1();
 
     while(1){
         printf(VOLTAR);
         usleep(SEGUNDOS/FPS);
 
         printf("Nivel: %d\n", nivel);
-        printf("Pontos: %d\n", pontos);
+
+        if(player.estado == 1) player.estado = 0;
+        for(int i=0; i<max_inm; i++) switch_estados(&inimigo[i]);
 
         cd_jogo();    
         player_acoes();
@@ -41,56 +46,29 @@ int main_game(){
 
         imprimir_mapa();
         imprimir_barra_de_vida(player.vida, inicializar_player[nivel-1].vida);
+        printf("Pontos: %d\n", pontos);
+        printf("Baixas: %d\n", abates_totais - abates);
 
         if(player.vida <= 0){
             player.estado = 2;
-            printf(VOLTAR"\n\n");
+            printf(VOLTAR"\n");
             imprimir_mapa();
             break;
         }
-        if(pontos >= config.pontos_minimos){
+        if(abates_totais - abates >= config.abates_minimos){
             vitoria=1; break;
         }
 
         //info_para_debug();
+        //pausa();
+    }
+
+    if(nivel == MAX_NIVEIS){
+        sleep(2);
+        Boss_Exit();
     }
 
     usleep(1.5*SEGUNDOS);
-    return vitoria;
-}
-
-int boss_fight(){
-
-    int vitoria=0;
-    Boss_Entering();
-    
-    while(1){
-        printf(VOLTAR);
-        usleep(SEGUNDOS/FPS);
-
-        printf("Nivel: %d\n", nivel);
-        printf("Pontos: %d\n", pontos);
-
-        
-        
-        
-        imprimir_mapa();
-        imprimir_barra_de_vida(player.vida, inicializar_player[nivel-1].vida);
-
-        if(player.vida <= 0){
-            player.estado = 2;
-            printf(VOLTAR"\n\n");
-            imprimir_mapa();
-            break;
-        }
-        if(boss.vida <= 0){
-            printf(VOLTAR"\n\n");
-            Boss_Exit();
-            break;
-        }
-    }
-
-    if(vitoria) Boss_Exit();
     return vitoria;
 }
 

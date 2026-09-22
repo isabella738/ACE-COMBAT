@@ -9,6 +9,7 @@ int spawn[][10] = { //o 1o elemento é o tamanho do array + 1
  
 Entidade inicializar_inimigo[] = {
     {//nivel 1
+        1,
         {0, -3},
         {0, 1},
         spawn[0],
@@ -28,6 +29,7 @@ Entidade inicializar_inimigo[] = {
         1*FPS
     },
     {//nivel 2
+        2,
         {0, -3},
         {0, 1},
         spawn[1],
@@ -47,6 +49,7 @@ Entidade inicializar_inimigo[] = {
         1*FPS
     },
     {//nivel 3 BOSS
+        3,
         {1, -6},
         {0, 1},
         spawn[2],

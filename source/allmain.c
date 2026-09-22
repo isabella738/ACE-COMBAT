@@ -24,16 +24,28 @@ int main(){
     int vitoria=0;
 
     subida_de_nivel(); nivel++;
-    
-    while(1){
-        system("clear");
-        config = configuracoes_de_fase[nivel-1];
+    system("clear");
+    printf("Dica: Use awsd para se movimentar e k para atirar.\n"); 
+    pausa(); system("clear");
 
-        if(nivel==1){
-            printf("Dica: Use awsd para se movimentar e k para atirar.\n"); pausa(); system("clear");
+    printf("Iniciar modo de fases(1) ou modo infinito(2)?\n");
+    while(1){
+        char c;
+        if(read(STDIN_FILENO, &c, 1) > 0){
+            if(c == '1'){ modo_infinito = 0; break;}
+            else if(c == '2'){ modo_infinito = 1; break;}
         }
-        
-        pre_processamento();
+    }
+    system("clear");
+
+    if(modo_infinito){
+        arcade();
+        return 0;
+    }
+    else while(1){
+        imprimir_em_cima(9, 18, tela_mudanca_de_nivel[nivel], 2, 6, 4, 0.01);
+        pausa(); system("clear");
+
         vitoria = main_game();
 
         system("clear");
@@ -49,9 +61,10 @@ int main(){
         }
     }
 
-    if(!vitoria)
+    if(!vitoria){
+        informacoes_finais();
         printf("Os ceus nao foram salvos, mas este ainda nao e o fim da historia.\nBom Jogo!\n");
-
+    }
     restaurar_terminal();
     return 0;
 }

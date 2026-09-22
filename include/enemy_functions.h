@@ -1,5 +1,7 @@
 #include "settings.h"
 
+void random_spawn(Entidade *p);
+
 void spawn_inimigo(Entidade *p);
 
 void cd_inimigos(Entidade *p);//

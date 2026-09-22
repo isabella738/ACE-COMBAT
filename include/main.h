@@ -2,4 +2,4 @@
 
 int main_game();
 
-int boss_fight();
+void arcade();

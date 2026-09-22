@@ -39,6 +39,7 @@ typedef struct{
 }Projetil;
 
 typedef struct{
+    int nivel;
     Coordenada p; 
     Coordenada direcao;
     int *spawn;//diz respeito ao x da coordenada, já que o spawn sempre deve ocorrer fora da tela
@@ -76,6 +77,7 @@ extern int nivel;
 extern int pontos;
 extern int abates_totais;
 extern int max_inm;
+extern int modo_infinito;
 extern char cores[][10];
 
 #endif

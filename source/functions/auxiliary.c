@@ -26,13 +26,13 @@ int imprimir_entidade(int x, int y, Entidade entidade, char sprite[][2][ALTURA][
     && y >= entidade.p.y && y < entidade.p.y + entidade.altura){
         switch(entidade.estado){
             case 0: 
-                printf("%c", sprite[nivel-1][0][y - entidade.p.y][x - entidade.p.x]);
+                printf("%c", sprite[entidade.nivel-1][0][y - entidade.p.y][x - entidade.p.x]);
                 break;
             case 1: 
-                printf(VERMELHO "%c" RESET, sprite[nivel-1][0][y - entidade.p.y][x - entidade.p.x]);
+                printf(VERMELHO "%c" RESET, sprite[entidade.nivel-1][0][y - entidade.p.y][x - entidade.p.x]);
                 break;
             default: 
-                printf(AMARELO "%c" RESET, sprite[nivel-1][1][y - entidade.p.y][x - entidade.p.x]);
+                printf(AMARELO "%c" RESET, sprite[entidade.nivel-1][1][y - entidade.p.y][x - entidade.p.x]);
                 break;
         }
         return 1;
@@ -84,7 +84,7 @@ void imprimir_em_cima(int altura, int largura, char imagem[altura][largura], int
 
 void imprimir_barra_de_vida(){
     int x = player.vida, max = inicializar_player[nivel-1].vida;
-
+    //printf("x = %d; max = %d\n", x, max);
     int a;
     if(x*100/max > 50) a = 4;
     else if(x*100/max >25) a = 3;
@@ -132,7 +132,7 @@ void imprimir_mapa(){
 void informacoes_finais(){
     printf("\nPontuacao final: %d\n", pontos);
     printf("Numero de avioes abatidos: %d\n", abates_totais);
-    printf("Nivel mais alto: %d\n", nivel);
+    if(!modo_infinito)printf("Nivel mais alto: %d\n", nivel);
 }
 
 void mensagem_de_mudanca_de_nivel(){

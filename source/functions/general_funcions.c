@@ -36,10 +36,10 @@ void spawn_projetil(Entidade *e, int tipo){//tipo = 1, entidade é player
         
         int max = e->indices[n][i];
         if(tipo){
-            e->projetil[n][i][max] = inicializar_projetil_player[nivel-1][n][i];
+            e->projetil[n][i][max] = inicializar_projetil_player[player.nivel-1][n][i];
         }
         else{
-            e->projetil[n][i][max] = inicializar_projetil_inimigo[nivel-1][n][i];
+            e->projetil[n][i][max] = inicializar_projetil_inimigo[e->nivel-1][n][i];
         }
 
         e->projetil[n][i][max].p.x += e->p.x + e->projetil[n][i][j].spawn.x;
@@ -174,7 +174,8 @@ void cd_jogo(){
     //Spawn de novos inimigos
     if(config.spawn_inimigo > 0)config.spawn_inimigo--;
     if(!config.spawn_inimigo){
-        spawn_inimigo(&inimigo[max_inm]); 
+        if(modo_infinito) random_spawn(&inimigo[max_inm]);
+        else spawn_inimigo(&inimigo[max_inm]); 
         
         config.spawn_inimigo = configuracoes_de_fase[nivel-1].spawn_inimigo;
     }
@@ -204,9 +205,6 @@ void inicializar_constantes(){
 };
 
 void pre_processamento(){
-    //imprimir_em_cima(9, 18, tela_mudanca_de_nivel[nivel], 2, 6, 5, 0.01);
-    //pausa(); system("clear");
-
     spawn_player();
     inicializar_constantes(); 
 }
@@ -221,18 +219,19 @@ void inicializar_boss1(){
 //
 void info_para_debug(){
     printf("\n");
-    //printf("coord player: (%d, %d)     \n", player.p.x, player.p.y);
+    printf("coord player: (%d, %d)     \n", player.p.x, player.p.y);
+    //printf("Vida: %d    \n", player.vida);
     //printf("MAX_INM: %d    \n", max_inm);
-    printf("cd spawn inimigos: %d   \n", config.spawn_inimigo);
-    printf("vida boss: %d     \n", inimigo[0].vida);
-    printf("estado : %d   \n", inimigo[0].estado);
-    printf("cd ataque: %d    \n", inimigo[0].cd_ataque);
-    printf("cd atirar: %d    \n\n", inimigo[0].cd_atirar);
-    printf("ataque ativo: %d    \n", inimigo[0].ataque_ativo);
+    //printf("cd spawn inimigos: %d   \n", config.spawn_inimigo);
+    //printf("vida boss: %d     \n", inimigo[0].vida);
+    //printf("estado : %d   \n", inimigo[0].estado);
+    //printf("cd ataque: %d    \n", inimigo[0].cd_ataque);
+    //printf("cd atirar: %d    \n\n", inimigo[0].cd_atirar);
+    //printf("ataque ativo: %d    \n", inimigo[0].ataque_ativo);
     
-    printf("indice 0,0: %d    \n", inimigo[0].indices[0][0]);
-    printf("indice 0,1: %d    \n", inimigo[0].indices[0][1]);
-    printf("indice 0,2: %d    \n\n", inimigo[0].indices[0][2]);
+    //printf("indice 0,0: %d    \n", inimigo[0].indices[0][0]);
+    //printf("indice 0,1: %d    \n", inimigo[0].indices[0][1]);
+    //printf("indice 0,2: %d    \n\n", inimigo[0].indices[0][2]);
     /*
     printf("indice 2,1: %d    \n", inimigo[0].indices[1][0]);
     printf("indice 2,2: %d    \n", inimigo[0].indices[1][1]);
@@ -251,9 +250,9 @@ void info_para_debug(){
     //printf("dano player: %d         \n", player.projetil[0][0][0].dano);
     //printf("dano inm: %d               \n", inimigo[0].projetil[0][0][0].dano);
 
-    //printf("\n");
-    //printf("numero de inimigos: %d     \n", max_inm);
-    //printf("spawn_inimigo: %d      \n", config.spawn_inimigo);
+    printf("\n");
+    printf("numero de inimigos: %d     \n", max_inm);
+    printf("spawn_inimigo: %d      \n", config.spawn_inimigo);
 
     //printf("\n");
     //printf("inimigo[0] = (%d, %d)     \n", inimigo[0].p.x, inimigo[0].p.y);
@@ -266,9 +265,9 @@ void info_para_debug(){
     //printf("cd_atirar = %d\n", inimigo[0].cd_atirar);
     //printf("n_projeteis = %d\n", inimigo[0].indices[0][0]);
 
-    //printf("ativar vida: %d     \n", config.ativar_VidaExtra);
-    //printf("vida: (%d, %d)\n", vida.x, vida.y);
-    //printf("desativar vida: %d     \n", config.desativar_VidaExtra);
+    printf("ativar vida: %d     \n", config.ativar_VidaExtra);
+    printf("vida: (%d, %d)\n", vida.x, vida.y);
+    printf("desativar vida: %d     \n", config.desativar_VidaExtra);
 
 
 }

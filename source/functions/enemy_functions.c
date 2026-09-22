@@ -3,6 +3,19 @@
 #include "general_funcions.h" 
 #include <stdlib.h>
 
+void random_spawn(Entidade *p){
+    if(max_inm >= MAX_INIMIGOS - 1) return;
+
+    int a = rand()%(MAX_NIVEIS - 1);
+    (*p) = inicializar_inimigo[a];
+
+    int max = p->spawn[0];
+    int n = rand()%max + 1;
+    p->p.x = p->spawn[n];
+
+    max_inm++;
+}
+
 void spawn_inimigo(Entidade *p){
     if(max_inm >= MAX_INIMIGOS - 1) return;
 
@@ -26,7 +39,7 @@ void alternar_ataque(Entidade *p){
         int n = rand()%(p->q_ataques);
         p->ataque_ativo = n;
 
-        p->cd_ataque = inicializar_inimigo[nivel-1].cd_ataque;
+        p->cd_ataque = inicializar_inimigo[p->nivel-1].cd_ataque;
     }
 }
 
@@ -64,7 +77,7 @@ void movimentacao_inimigos(Entidade *p, int x){
             p->p.y += dy;
             p->p.x += dx;
         }
-        p->cd_andar = inicializar_inimigo[nivel-1].cd_andar;
+        p->cd_andar = inicializar_inimigo[p->nivel-1].cd_andar;
     }
 }
 
@@ -101,7 +114,7 @@ void inimigos_acoes(){
         
         if(!inimigo[i].cd_atirar){
             spawn_projetil(&inimigo[i], 0);
-            inimigo[i].cd_atirar = inicializar_inimigo[nivel-1].cd_atirar;
+            inimigo[i].cd_atirar = inicializar_inimigo[inimigo[i].nivel-1].cd_atirar;
         }
 
         if(inimigo[i].vida <=0 && inimigo[i].estado < 2){

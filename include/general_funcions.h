@@ -15,7 +15,7 @@ void apagar_projetil(Projetil vetor[], int x, int *max);
 void apagar_entidade(Entidade vetor[], int x, int *max);
 
 //Jogo
-void pre_processamento();//impressao na tela e inicializacao do player e de fase
+void pre_processamento();
 
 int movimentacao_projeteis(Projetil *p);//
 

@@ -29,15 +29,17 @@ int imprimir_entidade(int x, int y, Entidade entidade, char sprite[][2][3][8]){
 int imprimir_projeteis(int x, int y, Entidade e){
 
     for(int i=0; i < e.q_ataques; i++){
-        for(int j=0; j < e.tiros_ps[i]; i++){
+        for(int j=0; j < e.tiros_ps[i]; j++){
             for(int k=0; k < e.indices[i][j]; k++){
 
                 Projetil prj = e.projetil[i][j][k];
 
                 if(x == prj.p.x && y == prj.p.y){
                     printf("%s%c"RESET, cores[prj.cor], prj.c);
+                    
                     return 1;
                 }
+
             }
         }
     }
@@ -88,19 +90,21 @@ void imprimir_mapa(){
             if(!imp) imp = imprimir_projeteis(x, y, player);
             
             //Inimigos
-            if(!imp) for(int i=0; i < max_inm && imp == 0; i++){
+            for(int i=0; i < max_inm && imp == 0; i++){
                 imp = imprimir_entidade(x, y, inimigo[i], sprite_inimigos);
             }
-            
-            if(!imp) for(int i=0; i < max_inm && imp == 0; i++){
+
+            //Projeteis
+            for(int i=0; i < max_inm && imp == 0; i++){
                 imp = imprimir_projeteis(x, y, inimigo[i]);
             }
 
-            if(!imp) if(vida.x == x && vida.y == y){
-                printf(VERDE "@" RESET); 
-                imp = 1;
+            //Vida extra
+            if(!imp && vida.x == x && vida.y == y){
+                imp = 1; printf(VERDE "@" RESET);
             }
 
+            //Mapa
             if(!imp) printf(CINZA "%c" RESET, mapa[y][x]);
         }
         printf("\n");

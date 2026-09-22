@@ -15,7 +15,8 @@ Config configuracoes_de_fase[] = {
         FPS*10,
         FPS*10,
         1,
-        100,
+        //100,
+        10,
         10
     },
     {//fase 2
@@ -23,7 +24,8 @@ Config configuracoes_de_fase[] = {
         FPS*10,
         FPS*10,
         2,
-        300,
+        //300,
+        20,
         15,
     },
     {//fase 3 (Boss)

@@ -52,7 +52,7 @@ int main_game(){
             vitoria=1; break;
         }
 
-        info_para_debug();
+        //info_para_debug();
     }
 
     usleep(1.5*SEGUNDOS);
@@ -65,7 +65,29 @@ int boss_fight(){
     Boss_Entering();
     
     while(1){
+        printf(VOLTAR);
+        usleep(SEGUNDOS/FPS);
 
+        printf("Nivel: %d\n", nivel);
+        printf("Pontos: %d\n", pontos);
+
+        
+        
+        
+        imprimir_mapa();
+        imprimir_barra_de_vida(player.vida, inicializar_player[nivel-1].vida);
+
+        if(player.vida <= 0){
+            player.estado = 2;
+            printf(VOLTAR"\n\n");
+            imprimir_mapa();
+            break;
+        }
+        if(boss.vida <= 0){
+            printf(VOLTAR"\n\n");
+            Boss_Exit();
+            break;
+        }
     }
 
     if(vitoria) Boss_Exit();

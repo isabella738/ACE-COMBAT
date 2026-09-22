@@ -19,7 +19,7 @@ Entidade inicializar_player[] = {
         0
     },
     {//nivel 2
-        {8, 17},
+        {8, 17}, 
         30,
         5,
         3,

@@ -16,25 +16,27 @@ extern struct termios novo_terminal;
 extern struct termios velho_terminal;
 
 int main(){
+    system("clear");
     srand(time(NULL));
     mudar_terminal();
     fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
 
     int vitoria=0;
+
+    imprimir_em_cima(9, 20, level_up[0], 1, 6, 1, 0);
+    pausa(); system("clear");
     
     while(1){
         system("clear");
         config = configuracoes_de_fase[nivel-1];
         
-        imprimir_em_cima(9, 20, level_up[0], 1, 6, 1, 0);
-        pausa(); system("clear");
 
         if(nivel==1){
             printf("Dica: Use awsd para se movimentar e k para atirar.\n"); pausa(); system("clear");
         }
         
         pre_processamento();
-        if(nivel == 3) vitoria = boss_fight(boss);
+        if(nivel == 3) vitoria = boss_fight();
         else vitoria = main_game();
 
         system("clear");
@@ -42,7 +44,9 @@ int main(){
             imprimir_em_cima(9, 20, level_up[nivel], 1, 6, 5, 0.1);
             if(nivel == 3) break;
 
-            printf("- Novo Aviao!\n- + Vida!\n- + Dano!\n\n"); pausa();
+            printf("- Novo Aviao!\n- + Vida!\n- + Dano!\n\n"); 
+            getchar();
+            pausa();
             nivel++;
         }
         else{

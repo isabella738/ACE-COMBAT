@@ -54,7 +54,7 @@ Entidade inicializar_inimigo[] = {
     }
 };
 
-Projetil inicializar_projetil_inimigo[][MAX_ATAQUES][MAX_TPS] = {
+Projetil inicializar_projetil_inimigo[][MAX_ATAQUES][MAX_TPS]= {
     {//nivel 1
         {//ataque 1
             {//p1

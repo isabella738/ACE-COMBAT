@@ -105,20 +105,21 @@ void projeteis_acoes(Entidade *e, int tipo){
                 if(tipo){
                     if(colisao(e->projetil[n][i][j].p, player)){
 
+                        player.vida -= e->projetil[n][i][j].dano;
+
                         apagar_projetil(e->projetil[n][i], j, &e->indices[n][i]);
 
-                        player.vida -= e->projetil[n][i][j].dano;
                     }
                 }
                 else{
                     for(int k = 0; k < max_inm; k++){
                         if(colisao(e->projetil[n][i][j].p, inimigo[k])){
-                            
+
+                            inimigo[k].vida -= e->projetil[n][i][j].dano;
+
                             pontos++;
 
                             apagar_projetil(e->projetil[n][i], j, &e->indices[n][i]);
-
-                            inimigo[k].vida -= e->projetil[n][i][j].dano;
 
                             break;
                         }
@@ -173,11 +174,19 @@ void pre_processamento(){
     inicializar_constantes(); 
 }
 
-
 //
-
 void info_para_debug(){
     printf("\n");
+    printf("coord player: (%d, %d)     \n", player.p.x, player.p.y);
+
+    
+    
+    
+    
+    //printf("inimigo[0].projetil[0][0][0] = (%d, %d)\n", inimigo[0].projetil[0][0][0].p.x, inimigo[0].projetil[0][0][0].p.y);
+    //printf("inimigo[0].projetil[0][1][0] = (%d, %d)\n", inimigo[0].projetil[0][1][0].p.x, inimigo[0].projetil[0][1][0].p.y);
+
+    /*
     printf("dano player: %d         \n", player.projetil[0][0][0].dano);
     printf("dano inm: %d               \n", inimigo[0].projetil[0][0][0].dano);
 
@@ -187,8 +196,10 @@ void info_para_debug(){
 
     printf("\n");
     printf("inimigo[0] = (%d, %d)\n", inimigo[0].p.x, inimigo[0].p.y);
+    printf("dano %d      \n", inimigo[0].projetil[0][0][0].dano);
     printf("direcoes = (%d, %d)\n", inimigo[0].projetil[0][0][0].direcao.x, inimigo[0].projetil[0][0][0].direcao.y);
     printf("Vida = %d               \n", inimigo[0].vida);
+    */
     
     //printf("estado = %d\n", inimigo[0].estado);
     //printf("cd_atirar = %d\n", inimigo[0].cd_atirar);

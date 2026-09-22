@@ -34,7 +34,7 @@ typedef struct{
     Coordenada spawn;
     int dano;
     int cor;
-    char c;
+    char c; 
 }Projetil;
 
 typedef struct{

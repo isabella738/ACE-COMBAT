@@ -1,3 +1,15 @@
+/*
+    Contem todos os 'desenhos' do jogo.
+
+    As sprites de player e inimigo são separadas por nivel. Cada nivel tem 2 sprites, uma para o 
+    modelo do aviao em si, e outra para sua explosão.
+
+    "mudança de nivel" contem a tela de gameover e os escritos "NIVEL 1", "NIVEL 2", etc
+
+    "level_up" contem a tela inicial do jogo e os upgrades
+    Cada tela deste ultimo possui 4 sprites, pois elas ficarão alternando na tela, como uma animação
+*/
+
 #include "settings.h" 
 
 char barra_de_vida[21] = {"||||||||||||||||||||"};

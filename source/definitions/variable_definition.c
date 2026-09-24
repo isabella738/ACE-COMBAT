@@ -1,3 +1,7 @@
+/*
+    Define todas as principais variaveis do jogo
+*/
+
 #include "settings.h"
 
 char cores[][10] = {

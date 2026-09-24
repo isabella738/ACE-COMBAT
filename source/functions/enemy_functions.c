@@ -1,3 +1,8 @@
+/*
+    Funcoes especificas para a variavel 'inimigo[]'.
+    inimigos_acoes() compila todas elas.
+*/
+
 #include "settings.h"
 #include "definitions.h"
 #include "general_funcions.h" 

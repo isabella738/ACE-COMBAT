@@ -1,3 +1,8 @@
+/*
+    Funções para variaveis externas às entidades, como cooldowns de spawn de inimigos e vida extra,
+    colisões, inicializações, etc
+*/
+
 #include "settings.h"
 #include "definitions.h"
 #include "enemy_functions.h"

@@ -1,3 +1,9 @@
+/*
+    Possui todos os macros e structs e referencia todas as principais variaveis do jogo.
+    Incluir "settings.h" em um arquivo é suficiente para que ele reconheça todas estas
+    informações.
+*/
+
 #ifndef SETTINGS
 
 #define SETTINGS

@@ -1,3 +1,8 @@
+/*
+    Estas sao funcoes de auxilio. Fazem acoes que nao impactam diretamente na mecanica interna do jogo,
+    como impressao e mudanças de modo do terminal
+*/
+
 #include "settings.h"
 #include "sprites.h"
 #include "definitions.h"

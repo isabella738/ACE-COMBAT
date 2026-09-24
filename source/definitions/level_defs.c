@@ -1,3 +1,10 @@
+/*
+    Define valores para variaveis externas às entidades durante a execução do jogo
+
+    Obs: variaveis de cooldowns são o produto de um inteiro por uma macro FPS. Significa que este
+    inteiro diz respeito aos segundos deste cooldown.
+*/
+
 #include "settings.h"
 
 Config configuracoes_de_fase[] = {

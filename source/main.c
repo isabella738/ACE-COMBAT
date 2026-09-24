@@ -1,3 +1,26 @@
+/*
+    O main contem o loop onde de fato o jogo roda.
+    Segue-se o seguinte algoritmo:
+
+    0. Inicializar variaveis (configurações de fase, player, numeros inteiros)
+    Dentro do while:
+        1. Decrescer cooldowns e suas acoes (estados de entidade, spawn de objetos)
+        2. Mudar estados das entidades
+        3. Player: movimentacao propria e de seus projeteis
+        4. Inimigos: movimentacao propria e de seus projeteis
+        5. Colisoes
+        6. Impressao
+    
+    Todos esses passos consistem em uma serie de calculos que resultam em 1 frame.
+    Ao final da impressao, o cursor volta para o inicio da tela e, depois de mais um loop, imprime
+    um novo frame na tela, dando a impressao de movimento.
+
+    Este codigo possui 2 funcoes:
+        - main_game: modo de fases, encerra quando o player chega a um certo numero de abates
+        - arcade: modo infinito, spawna inimigos de diferentes fases. encerra quando o player morre.
+        
+*/
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -9,17 +32,6 @@
 #include "player_functions.h"
 #include "enemy_functions.h"
 #include "cutscenes.h"
-
-/*
-    Ordem de Execucao
-
-    1. Decrescer cooldowns e suas acoes (estados de entidade, spawn de objetos)
-    2. Player: movimentacao propria e de seus projeteis
-    3. Inimigos: movimentacao propria e de seus projeteis
-    4. Colisoes
-    5. Impressao
-
-*/
 
 #ifdef SETTINGS
 

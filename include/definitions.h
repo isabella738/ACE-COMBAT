@@ -1,3 +1,9 @@
+/*
+    Referencia as variaveis de inicialização
+    Incluir "definitions.h" a qualquer arquivo é suficiente para que ele reconheça todas estas
+    variaveis.
+*/
+
 #include "settings.h" 
 
 #ifdef SETTINGS

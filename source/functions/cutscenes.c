@@ -1,3 +1,7 @@
+/*
+    Algoritmos para "animacoes" em momentos especiais do jogo
+*/
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>

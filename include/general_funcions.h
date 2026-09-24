@@ -15,7 +15,7 @@ void apagar_projetil(Projetil vetor[], int x, int *max);
 void apagar_entidade(Entidade vetor[], int x, int *max);
 
 //Jogo
-void pre_processamento();
+void pre_processamento(); //inicializa player e as variaveis de nivel
 
 int movimentacao_projeteis(Projetil *p);//
 

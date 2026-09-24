@@ -1,3 +1,9 @@
+/*
+    É no AllMain onde algumas das configurações externas ao jogo, como mudança de fase e controle
+    de vitoria, são gerenciadas.
+    Contem a função main do projeto.
+*/
+
 #include "settings.h"
 #include "auxiliary.h"
 #include "main.h"

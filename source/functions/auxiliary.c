@@ -79,7 +79,7 @@ void imprimir_em_cima(int altura, int largura, char imagem[altura][largura], int
             if(x >= dx && x < dx + largura && y >= dy && y < dy + altura){
                 printf("%s%c"RESET, cores[cor], imagem[y-dy][x-dx]);
                 if(tempo)fflush(stdout);
-                usleep(SEGUNDOS*tempo);
+                sleep_ms(SEGUNDOS*tempo);
             }
             else printf(CINZA"%c"RESET, mapa[y][x]);
 

@@ -18,7 +18,7 @@
 #define MAX_TPS 3 //tiros por segundo
 #define MAX_NIVEIS 3
 
-#define SEGUNDOS 1000000
+#define SEGUNDOS 1000 //milissegundos
 #define FPS 20 //1 frame dura 1/20 = 0.05 segundos
 
 #define VOLTAR "\033[H"

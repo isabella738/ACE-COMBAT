@@ -18,9 +18,9 @@ void gameover(){
         printf(VOLTAR"\n");
         imprimir_mapa();
         player.p.y++;
-        usleep(0.5*SEGUNDOS);
+        sleep_ms(0.5*SEGUNDOS);
     }
-    usleep(3*SEGUNDOS);
+    sleep_ms(3*SEGUNDOS);
     limpar_tela();
     imprimir_em_cima(9, 18, tela_mudanca_de_nivel[0], 2, 6, 2, 0.01);
 }
@@ -43,9 +43,9 @@ void Boss_Entering(){
         );
 
         
-        usleep(SEGUNDOS);
+        sleep_ms(SEGUNDOS);
     }
-    usleep(2*SEGUNDOS);
+    sleep_ms(2*SEGUNDOS);
 }
 
 void Boss_Exit(){
@@ -56,9 +56,9 @@ void Boss_Exit(){
         imprimir_mapa();
 
         inimigo[0].p.y--;
-        usleep(SEGUNDOS);
+        sleep_ms(SEGUNDOS);
     }
-    usleep(2*SEGUNDOS);
+    sleep_ms(2*SEGUNDOS);
 }
 
 void subida_de_nivel(){
@@ -66,13 +66,13 @@ void subida_de_nivel(){
     int a = 0;
 
     while(1){
-        printf(VOLTAR); usleep(SEGUNDOS*0.5);
+        printf(VOLTAR); sleep_ms(SEGUNDOS*0.5);
         imprimir_em_cima(9, 20, level_up[nivel][a], 1, 6, 3, 0);
         a++;
         if(a==4)a=0;
 
         char c;
-        if(read(STDIN_FILENO, &c, 1) > 0) break;
+        if(ler_teclado(&c)) break;
 
         mensagem_de_mudanca_de_nivel();
 

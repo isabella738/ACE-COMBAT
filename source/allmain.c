@@ -45,7 +45,7 @@ int main(){
     printf("Iniciar modo de fases(1) ou modo infinito(2)?\n");
     while(1){
         char c;
-        if(read(STDIN_FILENO, &c, 1) > 0){
+        if(ler_teclado(&c)){
             if(c == '1'){ modo_infinito = 0; break;}
             else if(c == '2'){ modo_infinito = 1; break;}
         }
@@ -58,6 +58,7 @@ int main(){
     }
     else while(1){
         imprimir_em_cima(9, 18, tela_mudanca_de_nivel[nivel], 2, 6, 4, 0.01);
+        limpar_buffer();
         pausa();
         limpar_tela();
 

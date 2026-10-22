@@ -32,6 +32,7 @@
 #include "player_functions.h"
 #include "enemy_functions.h"
 #include "cutscenes.h"
+#include "terminal.h"
 
 #ifdef SETTINGS
 
@@ -46,7 +47,7 @@ int main_game(){
 
     while(1){
         printf(VOLTAR);
-        usleep(SEGUNDOS/FPS);
+        sleep_ms(SEGUNDOS/FPS);
 
         printf("Nivel: %d\n", nivel);
 
@@ -81,7 +82,7 @@ int main_game(){
         Boss_Exit();
     }
 
-    usleep(1.5*SEGUNDOS);
+    sleep_ms(1.5*SEGUNDOS);
     return vitoria;
 }
 
@@ -94,7 +95,7 @@ void arcade(){
     
     while(1){
         printf(VOLTAR);
-        usleep(SEGUNDOS/FPS);
+        sleep_ms(SEGUNDOS/FPS);
 
         printf("Modo Infinito\n");
 

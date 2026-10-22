@@ -5,7 +5,7 @@ Aviso: por causa das configurações de input, por enquanto o jogo só compila e
 Para executar:
 1. Baixe e descompacte os arquivos do projeto  
 2. Abra a pasta no terminal  
-3. No terminal comum, digite: make && ./acecombat; no terminal do VSCode, aperte Ctrl + shift + B  
+3. No terminal comum, digite ./acecombat no Linux ou abra o executável no Windows. No terminal do VSCode, aperte Ctrl + shift + B  
 
 ## Resumo
 O jogo possui um modo de niveis e um modo infinito.  

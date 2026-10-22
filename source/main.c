@@ -116,7 +116,7 @@ void arcade(){
             imprimir_mapa();
             break;
         }
-        info_para_debug();
+        //info_para_debug();
     }
 
     gameover();

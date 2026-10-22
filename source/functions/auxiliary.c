@@ -6,6 +6,7 @@
 #include "settings.h"
 #include "sprites.h"
 #include "definitions.h"
+#include "terminal.h"
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -15,14 +16,14 @@
 
 void limpar_buffer(){
     char c;
-    while (read(STDIN_FILENO, &c, 1) > 0);
+    while (ler_teclado(&c));
 }
 
 void pausa(){
     printf("Pressione qualquer tecla para continuar.\n");
     char c;
     while(1){
-        if(read(STDIN_FILENO, &c, 1) > 0) break;
+        if(ler_teclado(&c)) break;
     }
 }
 

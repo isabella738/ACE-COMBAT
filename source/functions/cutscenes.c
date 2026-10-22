@@ -8,6 +8,7 @@
 #include "settings.h"
 #include "sprites.h"
 #include "auxiliary.h"
+#include "terminal.h"
 
 #ifdef SETTINGS
 
@@ -20,12 +21,12 @@ void gameover(){
         usleep(0.5*SEGUNDOS);
     }
     usleep(3*SEGUNDOS);
-    system("clear");
+    limpar_tela();
     imprimir_em_cima(9, 18, tela_mudanca_de_nivel[0], 2, 6, 2, 0.01);
 }
 
 void Boss_Entering(){
-    system("clear");
+    limpar_tela();
     while(inimigo[0].p.y < 1){
         inimigo[0].p.y++;
 
@@ -48,7 +49,7 @@ void Boss_Entering(){
 }
 
 void Boss_Exit(){
-    system("clear");
+    limpar_tela();
     while(inimigo[0].p.y >= -6){
         printf(VOLTAR"\n");
         
@@ -77,7 +78,7 @@ void subida_de_nivel(){
 
         printf("\nPressione qualquer tecla para continuar.\n\n");
     }
-    system("clear");
+    limpar_tela();
 }
 
 #endif

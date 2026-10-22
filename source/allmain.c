@@ -9,30 +9,38 @@
 #include "main.h"
 #include "definitions.h"
 #include "cutscenes.h"
-#include "general_funcions.h"
+#include "general_functions.h" 
 #include "sprites.h"
+#include "terminal.h"
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
-
-extern struct termios novo_terminal;
-extern struct termios velho_terminal;
+#if defined(LINUX)
+    #include <fcntl.h>
+    #include <unistd.h>
+#endif
 
 int main(){
-    system("clear");
+    limpar_tela();
     srand(time(NULL));
-    mudar_terminal();
-    fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
+    #if defined(LINUX)
+        fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
+        mudar_terminal();
+        system("clear");
+    #else
+        system("cls");
+    #endif
 
     int vitoria=0;
 
     subida_de_nivel(); nivel++;
-    system("clear");
+    limpar_tela();
     printf("Dica: Use awsd para se movimentar e k para atirar.\n"); 
-    pausa(); system("clear");
+    pausa(); 
+    limpar_tela();
 
     printf("Iniciar modo de fases(1) ou modo infinito(2)?\n");
     while(1){
@@ -42,7 +50,7 @@ int main(){
             else if(c == '2'){ modo_infinito = 1; break;}
         }
     }
-    system("clear");
+    limpar_tela();
 
     if(modo_infinito){
         arcade();
@@ -50,11 +58,12 @@ int main(){
     }
     else while(1){
         imprimir_em_cima(9, 18, tela_mudanca_de_nivel[nivel], 2, 6, 4, 0.01);
-        pausa(); system("clear");
+        pausa();
+        limpar_tela();
 
         vitoria = main_game();
 
-        system("clear");
+        limpar_tela();
         limpar_buffer();
         if(vitoria){
             subida_de_nivel();
@@ -71,6 +80,5 @@ int main(){
         informacoes_finais();
         printf("Os ceus nao foram salvos, mas este ainda nao e o fim da historia.\nBom Jogo!\n");
     }
-    restaurar_terminal();
     return 0;
 }

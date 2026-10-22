@@ -28,7 +28,7 @@
 #include "sprites.h"
 #include "definitions.h"
 #include "auxiliary.h"
-#include "general_funcions.h"
+#include "general_functions.h" 
 #include "player_functions.h"
 #include "enemy_functions.h"
 #include "cutscenes.h"

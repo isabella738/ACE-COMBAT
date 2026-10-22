@@ -8,6 +8,7 @@
 #include "enemy_functions.h"
 #include "player_functions.h"
 #include "sprites.h"
+#include "terminal.h"
 #include "auxiliary.h"
 #include "cutscenes.h"
 #include <stdlib.h>

@@ -5,7 +5,8 @@
 
 #include "settings.h"
 #include "definitions.h"
-#include "general_funcions.h"
+#include "general_functions.h" 
+#include "terminal.h"
 #include <unistd.h>
 #include <string.h> 
 
@@ -25,7 +26,7 @@ void movimentacao_player(int *atirar){
     int y = player.p.y;
 
     char comando;
-    if(read(STDIN_FILENO, &comando, 1) > 0){
+    if(ler_teclado(&comando)){
         switch(comando){
             case 'a':
                 if(x > 1) player.p.x--;

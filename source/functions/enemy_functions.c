@@ -5,7 +5,7 @@
 
 #include "settings.h"
 #include "definitions.h"
-#include "general_funcions.h" 
+#include "general_functions.h" 
 #include <stdlib.h>
 
 void random_spawn(Entidade *p){

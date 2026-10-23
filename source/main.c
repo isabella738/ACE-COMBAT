@@ -59,7 +59,7 @@ int main_game(){
         inimigos_acoes();
 
         imprimir_mapa();
-        imprimir_barra_de_vida(player.vida, inicializar_player[nivel-1].vida);
+        imprimir_barra_de_vida();
         printf("Pontos: %d\n", pontos);
         printf("Baixas: %d\n", abates_totais - abates);
 
@@ -107,7 +107,7 @@ void arcade(){
         inimigos_acoes();
 
         imprimir_mapa();
-        imprimir_barra_de_vida(player.vida, inicializar_player[nivel-1].vida);
+        imprimir_barra_de_vida();
         printf("Pontos: %d\n", pontos);
         printf("Baixas: %d\n", abates_totais);
 

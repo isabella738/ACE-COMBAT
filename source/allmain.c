@@ -12,9 +12,6 @@
 #include "general_functions.h" 
 #include "sprites.h"
 #include "terminal.h"
-#include <termios.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,6 +23,8 @@
 int main(){
     limpar_tela();
     srand(time(NULL));
+
+    if(erro_de_sistema()) return 0;
     #if defined(LINUX)
         fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
         mudar_terminal();
@@ -79,7 +78,9 @@ int main(){
 
     if(!vitoria){
         informacoes_finais();
-        printf("Os ceus nao foram salvos, mas este ainda nao e o fim da historia.\nBom Jogo!\n");
+        printf("Os ceus nao foram salvos, mas este ainda nao e o fim da historia.\nVolte para jogar novamente depois!\n");
     }
+    limpar_buffer();
+    getchar();
     return 0;
 }

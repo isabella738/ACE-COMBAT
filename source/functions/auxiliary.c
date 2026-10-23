@@ -7,12 +7,7 @@
 #include "sprites.h"
 #include "definitions.h"
 #include "terminal.h"
-#include <termios.h>
-#include <unistd.h>
-#include <fcntl.h>
 #include <stdio.h>
-
-#ifdef SETTINGS
 
 void limpar_buffer(){
     char c;
@@ -159,5 +154,3 @@ void mensagem_de_mudanca_de_nivel(){
             break;
     }
 }
-
-#endif

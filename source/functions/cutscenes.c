@@ -10,8 +10,6 @@
 #include "auxiliary.h"
 #include "terminal.h"
 
-#ifdef SETTINGS
-
 void gameover(){
         
     while(player.p.y <= ALTURA){
@@ -80,5 +78,3 @@ void subida_de_nivel(){
     }
     limpar_tela();
 }
-
-#endif
